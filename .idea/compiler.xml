@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="NotificationService" />
+        <module name="PackageService" />
+        <module name="RouteService" />
+        <module name="CheckpointService" />
+        <module name="ClientService" />
+        <module name="UserService" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="CheckpointService" target="17" />
+      <module name="ClientService" target="17" />
+      <module name="NotificationService" target="17" />
+      <module name="PackageService" target="17" />
+      <module name="RouteService" target="17" />
+      <module name="UserService" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CheckpointService" options="-parameters" />
+      <module name="ClientService" options="-parameters" />
+      <module name="NotificationService" options="-parameters" />
+      <module name="PackageService" options="-parameters" />
+      <module name="RouteService" options="-parameters" />
+      <module name="UserService" options="-parameters" />
+    </option>
+  </component>
+</project>
