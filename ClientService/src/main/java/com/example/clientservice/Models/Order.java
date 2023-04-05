@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Data
 public class Order {
 
