@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/demo-controller")
-public class DemoController {
+@RequestMapping("/v1/is-authenticated")
+public class AuthController {
 
     @GetMapping
-    public ResponseEntity<String> sayHello(){
-        return ResponseEntity.ok("Hola desde un endpoint seguro");
+    public ResponseEntity<Boolean> isAuthenticated(){
+        return ResponseEntity.ok(true);
     }
 
 }
