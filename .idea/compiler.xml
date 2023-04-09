@@ -7,15 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="NotificationService" />
         <module name="PackageService" />
-        <module name="RouteService" />
         <module name="CheckpointService" />
         <module name="ClientService" />
         <module name="UserService" />
+        <module name="NotificationService" />
+        <module name="RouteService" />
+        <module name="AuthenticationService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="AuthenticationService" target="17" />
       <module name="CheckpointService" target="17" />
       <module name="ClientService" target="17" />
       <module name="NotificationService" target="17" />
@@ -26,6 +28,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="AuthenticationService" options="-parameters" />
       <module name="CheckpointService" options="-parameters" />
       <module name="ClientService" options="-parameters" />
       <module name="NotificationService" options="-parameters" />

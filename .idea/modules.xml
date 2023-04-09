@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AuthenticationService/AuthenticationService.iml" filepath="$PROJECT_DIR$/AuthenticationService/AuthenticationService.iml" />
       <module fileurl="file://$PROJECT_DIR$/CheckpointService/CheckpointService.iml" filepath="$PROJECT_DIR$/CheckpointService/CheckpointService.iml" />
       <module fileurl="file://$PROJECT_DIR$/ClientService/ClientService.iml" filepath="$PROJECT_DIR$/ClientService/ClientService.iml" />
       <module fileurl="file://$PROJECT_DIR$/NotificationService/NotificationService.iml" filepath="$PROJECT_DIR$/NotificationService/NotificationService.iml" />
