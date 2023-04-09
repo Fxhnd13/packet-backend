@@ -1,4 +1,4 @@
-package com.example.userservice.controllers;
+package com.example.clientservice.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +11,6 @@ public class DemoController {
 
     @GetMapping("/hello-world")
     public ResponseEntity<String> helloWorld(){
-        return ResponseEntity.ok("Hola mundo");
+        return ResponseEntity.ok("Hola mundo desde servicio de clientes");
     }
 }
