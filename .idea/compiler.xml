@@ -14,20 +14,13 @@
         <module name="NotificationService" />
         <module name="RouteService" />
         <module name="AuthenticationService" />
+        <module name="ApiGateway" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="AuthenticationService" target="17" />
-      <module name="CheckpointService" target="17" />
-      <module name="ClientService" target="17" />
-      <module name="NotificationService" target="17" />
-      <module name="PackageService" target="17" />
-      <module name="RouteService" target="17" />
-      <module name="UserService" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ApiGateway" options="-parameters" />
       <module name="AuthenticationService" options="-parameters" />
       <module name="CheckpointService" options="-parameters" />
       <module name="ClientService" options="-parameters" />
