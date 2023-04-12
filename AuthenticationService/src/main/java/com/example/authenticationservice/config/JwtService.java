@@ -1,10 +1,13 @@
 package com.example.authenticationservice.config;
 
+import com.example.authenticationservice.models.RedisManager;
+import com.netflix.discovery.converters.Auto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,8 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566D597033733676397924";
+    @Autowired
+    private RedisManager redisManager;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -33,18 +38,21 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
-        return Jwts
+        String jwt = Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
+        redisManager.storeJwt(jwt);
+        return jwt;
     }
 
     public boolean istokenValid(String token, UserDetails userDetails){
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        /*final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);*/
+        return redisManager.isValidToken(token);
     }
 
     public boolean isTokenExpired(String token){
