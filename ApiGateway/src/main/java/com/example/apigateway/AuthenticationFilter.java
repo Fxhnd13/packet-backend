@@ -14,12 +14,9 @@ import java.io.ObjectInputFilter;
 import java.util.List;
 import java.util.function.Predicate;
 
-@Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
-    public AuthenticationFilter() {
-        super(Config.class);
-    }
+    public AuthenticationFilter(String authorizedRole) { super(Config.class); }
 
     @Override
     public Config newConfig() {
@@ -61,8 +58,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     headers.set("Authorization", token);
                     HttpEntity<String> entity = new HttpEntity<>(headers);
 
-                    ResponseEntity<Boolean> isAuthenticatedResponse = isAuthenticatedRequest.exchange("http://localhost:8086/v1/is-authenticated", HttpMethod.GET, entity, Boolean.class);
-                    System.out.println(isAuthenticatedResponse);
+                    //ResponseEntity<Boolean> isAuthenticatedResponse = isAuthenticatedRequest.exchange("http://localhost:8086/v1/is-authenticated", HttpMethod.GET, entity, Boolean.class);
+                    ResponseEntity<Boolean> isAuthenticatedResponse = isAuthenticatedRequest.exchange("lb://authentication-service/v1/is-authenticated", HttpMethod.GET, entity, Boolean.class);
                     if(isAuthenticatedResponse.getStatusCode() != HttpStatus.OK){
                         ServerHttpResponse response = exchange.getResponse();
                         response.setStatusCode(isAuthenticatedResponse.getStatusCode());
