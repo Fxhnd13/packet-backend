@@ -24,7 +24,7 @@ spring:
           filters:
             - StripPrefix=1
       default-filters:
-        - name: AuthenticationFilter
+        - name: DefaultFilter
 server:
   port: 8080
 

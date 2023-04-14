@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Component
-public class WhiteListFilter extends AbstractGatewayFilterFactory<WhiteListFilter.Config> {
+public class DefaultFilter extends AbstractGatewayFilterFactory<DefaultFilter.Config> {
 
     @Override
-    public WhiteListFilter.Config newConfig() { return new WhiteListFilter.Config(); }
+    public DefaultFilter.Config newConfig() { return new DefaultFilter.Config(); }
 
     @Override
-    public GatewayFilter apply(WhiteListFilter.Config config) {
+    public GatewayFilter apply(DefaultFilter.Config config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             AuthenticationUtils authUtils = new AuthenticationUtils();
@@ -40,7 +40,6 @@ public class WhiteListFilter extends AbstractGatewayFilterFactory<WhiteListFilte
 
                     ResponseEntity<String> isValidToken = authUtils.getUserRole(token);
                     if(isValidToken.getStatusCode() != HttpStatus.OK) return authUtils.sendUnauthorized(exchange);
-                    if(!authUtils.hasOperatorRoleOrAbove(isValidToken)) return authUtils.sendForbbiden(exchange);
 
                 }catch(Exception e){
                     ServerHttpResponse response = exchange.getResponse();
@@ -54,7 +53,7 @@ public class WhiteListFilter extends AbstractGatewayFilterFactory<WhiteListFilte
 
     @Override
     public String name() {
-        return "WhiteListFilter";
+        return "DefaultFilter";
     }
 
     public static class Config {
