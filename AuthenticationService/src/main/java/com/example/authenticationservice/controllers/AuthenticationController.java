@@ -1,11 +1,17 @@
-package com.example.authenticationservice.auth;
+package com.example.authenticationservice.controllers;
 
+import com.example.authenticationservice.auth.AuthenticationRequest;
+import com.example.authenticationservice.auth.AuthenticationResponse;
+import com.example.authenticationservice.auth.AuthenticationService;
+import com.example.authenticationservice.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/v1/auth")
@@ -22,10 +28,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ){
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @GetMapping("/authorities")
+    public ResponseEntity<Authentication> getAuthorities(){
+        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
     }
 
 }
