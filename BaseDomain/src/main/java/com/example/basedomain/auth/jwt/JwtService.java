@@ -1,5 +1,6 @@
 package com.example.basedomain.auth.jwt;
 
+import com.example.basedomain.auth.models.RedisManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -48,17 +49,7 @@ public class JwtService {
     }
 
     public boolean istokenValid(String token, UserDetails userDetails){
-        /*final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);*/
         return redisManager.isValidToken(token);
-    }
-
-    public boolean isTokenExpired(String token){
-        return extractExpiration(token).before(new Date());
-    }
-
-    public Date extractExpiration(String token){
-        return extractClaim(token, Claims::getExpiration);
     }
 
     private Claims extractAllClaims(String token){

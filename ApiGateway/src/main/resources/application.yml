@@ -23,8 +23,6 @@ spring:
             - Path=/client-service/**
           filters:
             - StripPrefix=1
-      default-filters:
-        - name: DefaultFilter
 server:
   port: 8080
 

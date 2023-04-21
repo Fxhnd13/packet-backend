@@ -20,7 +20,6 @@ public class RoleInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         RoleValidation annotation = handlerMethod.getMethodAnnotation(RoleValidation.class);
-        setAuthorities(request.getHeader("Authorization"));
 
         if (annotation != null) {
             String[] roles = annotation.value();
@@ -46,17 +45,6 @@ public class RoleInterceptor implements HandlerInterceptor {
             }
         }
         return true;
-    }
-
-    public void setAuthorities(String token){
-        RestTemplate request = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        Authentication auth = request.exchange("lb://authentication-service/v1/auth/roles", HttpMethod.GET, entity, Authentication.class).getBody();
-
-        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
 }

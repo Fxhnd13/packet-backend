@@ -19,7 +19,6 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
