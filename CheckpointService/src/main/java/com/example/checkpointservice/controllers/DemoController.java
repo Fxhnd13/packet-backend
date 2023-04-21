@@ -1,6 +1,6 @@
 package com.example.checkpointservice.controllers;
 
-import com.example.basedomain.auth.RoleValidation;
+import com.example.basedomain.auth.annotation.RoleValidation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

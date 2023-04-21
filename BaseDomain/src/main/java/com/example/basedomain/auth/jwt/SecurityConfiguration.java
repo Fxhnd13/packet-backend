@@ -1,4 +1,4 @@
-package com.example.authenticationservice.config;
+package com.example.basedomain.auth.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

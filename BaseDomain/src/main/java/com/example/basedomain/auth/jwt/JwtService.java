@@ -1,7 +1,5 @@
-package com.example.authenticationservice.config;
+package com.example.basedomain.auth.jwt;
 
-import com.example.authenticationservice.models.RedisManager;
-import com.netflix.discovery.converters.Auto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

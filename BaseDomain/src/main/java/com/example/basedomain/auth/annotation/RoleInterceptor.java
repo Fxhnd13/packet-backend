@@ -1,4 +1,4 @@
-package com.example.basedomain.auth;
+package com.example.basedomain.auth.annotation;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

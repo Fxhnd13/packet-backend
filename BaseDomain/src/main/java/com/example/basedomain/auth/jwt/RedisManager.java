@@ -1,4 +1,4 @@
-package com.example.authenticationservice.models;
+package com.example.basedomain.auth.jwt;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
