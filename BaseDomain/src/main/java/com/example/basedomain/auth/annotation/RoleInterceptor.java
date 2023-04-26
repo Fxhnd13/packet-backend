@@ -1,25 +1,20 @@
 package com.example.basedomain.auth.annotation;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+@Aspect
+@Component
+public class RoleInterceptor {
 
-public class RoleInterceptor implements HandlerInterceptor {
-
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        RoleValidation annotation = handlerMethod.getMethodAnnotation(RoleValidation.class);
+    @Around("@annotation(com.example.basedomain.auth.annotation.RoleValidation) && @annotation(annotation))")
+    public Object roleValidation(ProceedingJoinPoint joinPoint, RoleValidation annotation) throws Throwable {
 
         if (annotation != null) {
             String[] roles = annotation.value();
@@ -40,11 +35,10 @@ public class RoleInterceptor implements HandlerInterceptor {
             }
 
             if(!hasRole){
-                response.sendError(HttpStatus.FORBIDDEN.value(), "No tiene permisos suficientes para acceder a este recurso.");
-                return false;
+                throw new AccessDeniedException("El usuario no tiene permisos suficientes para acceder a este recurso");
             }
         }
-        return true;
+        return joinPoint.proceed();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.basedomain.auth.models;
+package com.example.authenticationservice.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

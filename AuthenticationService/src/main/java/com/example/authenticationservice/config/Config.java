@@ -1,6 +1,6 @@
-package com.example.basedomain.config;
+package com.example.authenticationservice.config;
 
-import com.example.basedomain.auth.models.UserRepository;
+import com.example.authenticationservice.models.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
-public class AppConfig {
+public class Config {
 
     private final UserRepository repository;
 

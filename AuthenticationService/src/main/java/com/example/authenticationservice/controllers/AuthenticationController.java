@@ -6,8 +6,6 @@ import com.example.authenticationservice.auth.AuthenticationService;
 import com.example.authenticationservice.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,11 +27,6 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest request
     ){
         return ResponseEntity.ok(service.authenticate(request));
-    }
-
-    @GetMapping("/authorities")
-    public ResponseEntity<Authentication> getAuthorities(){
-        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
     }
 
 }

@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     @GetMapping("/hello-admin")
-    @Secured({"ADMIN"})
     public ResponseEntity<String> helloAdmin(){
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
         return ResponseEntity.ok("Hola mundo desde servicio de puntos de control con permisos de administrador y operador");
     }
 
     @GetMapping("/hello-operator")
-    @Secured({"OPERATOR"})
+    @RoleValidation({"OPERATOR"})
     public ResponseEntity<String> helloOperator(){
         return ResponseEntity.ok("Hola mundo desde servicio de puntos de control con permisos de operador");
     }
 
     @GetMapping("/hello-client")
-    @Secured({"CLIENT"})
+    @RoleValidation({"CLIENT"})
     public ResponseEntity<String> helloClient(){
         return ResponseEntity.ok("Hola mundo desde servicio con permisos de cliente");
     }

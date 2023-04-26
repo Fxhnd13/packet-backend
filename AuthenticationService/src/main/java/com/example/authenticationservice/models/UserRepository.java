@@ -1,4 +1,4 @@
-package com.example.basedomain.auth.models;
+package com.example.authenticationservice.models;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,9 +1,9 @@
 package com.example.authenticationservice.auth;
 
 import com.example.basedomain.auth.jwt.JwtService;
-import com.example.basedomain.auth.models.Role;
-import com.example.basedomain.auth.models.User;
-import com.example.basedomain.auth.models.UserRepository;
+import com.example.authenticationservice.models.Role;
+import com.example.authenticationservice.models.User;
+import com.example.authenticationservice.models.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
