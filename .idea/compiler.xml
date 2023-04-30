@@ -11,7 +11,7 @@
         <module name="CheckpointService" />
         <module name="ClientService" />
         <module name="UserService" />
-        <module name="BaseDomain" />
+        <module name="AuthenticationConf" />
         <module name="NotificationService" />
         <module name="RouteService" />
         <module name="AuthenticationService" />
@@ -23,8 +23,8 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ApiGateway" options="-parameters" />
+      <module name="AuthenticationConf" options="-parameters" />
       <module name="AuthenticationService" options="-parameters" />
-      <module name="BaseDomain" options="-parameters" />
       <module name="CheckpointService" options="-parameters" />
       <module name="ClientService" options="-parameters" />
       <module name="NotificationService" options="-parameters" />

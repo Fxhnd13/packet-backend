@@ -61,7 +61,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.example</groupId>
-			<artifactId>BaseDomain</artifactId>
+			<artifactId>AuthenticationConf</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
