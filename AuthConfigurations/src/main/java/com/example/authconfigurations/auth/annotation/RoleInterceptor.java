@@ -1,4 +1,4 @@
-package com.example.basedomain.auth.annotation;
+package com.example.authconfigurations.auth.annotation;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoleInterceptor {
 
-    @Around("@annotation(com.example.basedomain.auth.annotation.RoleValidation) && @annotation(annotation))")
+    @Around("@annotation(com.example.authconfigurations.auth.annotation.RoleValidation) && @annotation(annotation))")
     public Object roleValidation(ProceedingJoinPoint joinPoint, RoleValidation annotation) throws Throwable {
 
         if (annotation != null) {

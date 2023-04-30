@@ -17,12 +17,42 @@ spring:
             - Path=/checkpoint-service/**
           filters:
             - StripPrefix=1
+
         - id: client-service
           uri: lb://client-service
           predicates:
             - Path=/client-service/**
           filters:
             - StripPrefix=1
+
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/notification-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: package-service
+          uri: lb://package-service
+          predicates:
+            - Path=/package-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: route-service
+          uri: lb://route-service
+          predicates:
+            - Path=/route-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - StripPrefix=1
+
 server:
   port: 8080
 

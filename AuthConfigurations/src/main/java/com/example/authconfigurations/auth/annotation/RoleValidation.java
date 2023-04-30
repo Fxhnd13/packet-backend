@@ -1,4 +1,4 @@
-package com.example.basedomain.auth.annotation;
+package com.example.authconfigurations.auth.annotation;
 
 import java.lang.annotation.*;
 

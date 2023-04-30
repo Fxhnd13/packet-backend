@@ -1,6 +1,6 @@
-package com.example.basedomain.auth.jwt;
+package com.example.authconfigurations.auth.jwt;
 
-import com.example.basedomain.auth.models.RedisManager;
+import com.example.authconfigurations.auth.models.RedisManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -11,20 +11,24 @@
         <module name="CheckpointService" />
         <module name="ClientService" />
         <module name="UserService" />
-        <module name="AuthenticationConf" />
         <module name="NotificationService" />
         <module name="RouteService" />
         <module name="AuthenticationService" />
         <module name="eureka-server" />
         <module name="ApiGateway" />
+        <module name="AuthConfigurations" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="BaseDomain" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ApiGateway" options="-parameters" />
-      <module name="AuthenticationConf" options="-parameters" />
+      <module name="AuthConfigurations" options="-parameters" />
       <module name="AuthenticationService" options="-parameters" />
+      <module name="BaseDomain" options="-parameters" />
       <module name="CheckpointService" options="-parameters" />
       <module name="ClientService" options="-parameters" />
       <module name="NotificationService" options="-parameters" />

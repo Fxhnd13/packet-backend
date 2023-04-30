@@ -1,13 +1,13 @@
-package com.example.basedomain;
+package com.example.authconfigurations;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BaseDomainApplicationTests {
+class AuthConfigurationsApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }

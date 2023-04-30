@@ -1,6 +1,6 @@
 package com.example.authenticationservice.auth;
 
-import com.example.basedomain.auth.jwt.JwtService;
+import com.example.authconfigurations.auth.jwt.JwtService;
 import com.example.authenticationservice.models.Role;
 import com.example.authenticationservice.models.User;
 import com.example.authenticationservice.models.UserRepository;
