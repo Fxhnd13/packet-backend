@@ -10,7 +10,6 @@
         <module name="PackageService" />
         <module name="CheckpointService" />
         <module name="ClientService" />
-        <module name="UserService" />
         <module name="NotificationService" />
         <module name="RouteService" />
         <module name="AuthenticationService" />
@@ -21,6 +20,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="BaseDomain" target="17" />
+      <module name="UserService" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
