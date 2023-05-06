@@ -15,11 +15,12 @@ public class Package {
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "weight")
     private double weight;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_priority", nullable = false)
-    private Priority priority;
+    @Column(name = "priority")
+    private boolean priority;
 
     @Column(name = "income_date")
     private Date incomeDate;
@@ -33,5 +34,8 @@ public class Package {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_fee")
     private Fee fee;
+
+    @Column(name = "id_route")
+    private int routeId;
 
 }

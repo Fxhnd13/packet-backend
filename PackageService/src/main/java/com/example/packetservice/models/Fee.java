@@ -21,7 +21,6 @@ public class Fee {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_priority")
-    private Priority priority;
+    @Column(name = "priority")
+    private boolean priority;
 }
