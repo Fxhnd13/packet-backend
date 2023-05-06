@@ -27,8 +27,7 @@ public class Client {
     @Column(name = "address")
     private String address;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_priority")
-    private Priority priority;
+    @Column(name = "priority")
+    private boolean priority;
     //private UserType userType;
 }

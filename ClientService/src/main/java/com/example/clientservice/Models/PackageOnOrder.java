@@ -19,4 +19,5 @@ public class PackageOnOrder {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_order")
     private Order order;
+
 }
