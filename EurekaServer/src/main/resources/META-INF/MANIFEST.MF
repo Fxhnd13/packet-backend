@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: com.eurekaserver.EurekaIntellijApplication
+Main-Class: com.eurekaserver.EurekaServerApplication
