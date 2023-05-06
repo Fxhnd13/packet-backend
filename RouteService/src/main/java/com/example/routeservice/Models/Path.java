@@ -17,10 +17,8 @@ public class Path {
     @JoinColumn(name = "id_route")
     private Route route;
 
-    @Column(name = "id_initial_checkpoint")
-    private int initialCheckpointId;
-
-    @Column(name = "id_final_checkpoint")
-    private int finalCheckpointId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_edge")
+    private Edge edge;
 
 }
