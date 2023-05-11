@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="ClientService:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/ClientService_jar</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/ClientService</output-path>
     <root id="archive" name="ClientService.jar">
       <element id="module-output" name="ClientService" />
       <element id="module-output" name="AuthConfigurations" />

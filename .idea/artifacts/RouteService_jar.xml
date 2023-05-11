@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="RouteService:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/RouteService_jar</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/RouteService</output-path>
     <root id="archive" name="RouteService.jar">
       <element id="module-output" name="RouteService" />
       <element id="module-output" name="AuthConfigurations" />

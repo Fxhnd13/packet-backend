@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="PackageService:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/PackageService_jar</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/PackageService</output-path>
     <root id="archive" name="PackageService.jar">
       <element id="module-output" name="PackageService" />
       <element id="module-output" name="AuthConfigurations" />

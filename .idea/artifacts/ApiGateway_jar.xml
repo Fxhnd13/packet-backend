@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="ApiGateway:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/ApiGateway_jar</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/ApiGateway</output-path>
     <root id="archive" name="ApiGateway.jar">
       <element id="module-output" name="ApiGateway" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/netflix/eureka/eureka-core/2.0.0/eureka-core-2.0.0.jar" path-in-jar="/" />
