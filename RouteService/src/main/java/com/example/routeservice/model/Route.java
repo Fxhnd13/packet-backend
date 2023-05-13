@@ -19,4 +19,7 @@ public class Route {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "active")
+    private boolean isActive;
+
 }
