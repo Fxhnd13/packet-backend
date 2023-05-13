@@ -30,6 +30,7 @@ public class DefaultFilter extends AbstractGatewayFilterFactory<DefaultFilter.Co
                     .noneMatch(uri -> r.getURI().getPath().contains(uri));
 
             if(isApiSecured.test(request)){
+
                 if(!request.getHeaders().containsKey("Authorization")){
                     return authUtils.sendUnauthorized(exchange);
                 }
