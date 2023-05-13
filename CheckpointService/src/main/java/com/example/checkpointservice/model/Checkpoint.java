@@ -22,4 +22,6 @@ public class Checkpoint {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "active")
+    private boolean isActive;
 }

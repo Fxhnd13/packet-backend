@@ -27,7 +27,9 @@ public class Client {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "id_user")
+    private int idUser;
+
     @Column(name = "priority")
     private boolean priority;
-    //private UserType userType;
 }
