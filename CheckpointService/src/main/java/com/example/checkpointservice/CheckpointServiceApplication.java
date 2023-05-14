@@ -11,5 +11,4 @@ public class CheckpointServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(CheckpointServiceApplication.class, args);
     }
-
 }
