@@ -1,11 +1,14 @@
 package com.example.checkpointservice.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+
 @Entity
 @Table(name = "fee_type")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class FeeType {
 
     @Id

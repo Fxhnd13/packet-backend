@@ -1,11 +1,15 @@
 package com.example.checkpointservice.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
 @Entity
 @Table(name = "checkpoint")
+@NoArgsConstructor
 public class Checkpoint {
 
     @Id
@@ -24,4 +28,8 @@ public class Checkpoint {
 
     @Column(name = "active")
     private boolean isActive;
+
+    @Column(name = "deleted")
+    private boolean isDeleted;
+
 }

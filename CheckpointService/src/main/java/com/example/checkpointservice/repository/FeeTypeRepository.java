@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FeeTypeRepository extends JpaRepository<FeeType, Integer> {
+
+    public FeeType findByName(String name);
 }
