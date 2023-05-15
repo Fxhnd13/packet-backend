@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .password("")
                     .authorities(jwtService.extractAuthorities(claims))
                     .build();
-            if(jwtService.istokenValid(jwt, userDetails)){
+            if(jwtService.istokenValid(jwt)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
