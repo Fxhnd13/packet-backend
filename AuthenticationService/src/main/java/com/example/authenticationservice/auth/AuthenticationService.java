@@ -11,16 +11,39 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * @apiNote Esta clase es responsable de la lógica de autenticación y registro de usuarios.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
+    /**
+     * @implNote Repositorio para las consultas relacionadas con usuarios
+     */
     private final UserRepository repository;
+    /**
+     * @implNote Repositorio para las consultas relacionadas con roles
+     */
     private final RoleRepository roleRepository;
+    /**
+     * @implNote Codificador de contraseñas
+     */
     private final PasswordEncoder passwordEncoder;
+    /**
+     * @implNote Servicio para la generación de tokens JWT
+     */
     private final JwtService jwtService;
+    /**
+     * @implNote Administrador de autenticación
+     */
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * @apiNote Registra un nuevo usuario en la base de datos
+     * @param request Datos del usuario a registrar
+     * @return Token JWT generado para el usuario
+     */
     public AuthenticationResponse register(RegisterRequest request) {
         Role role = roleRepository.findById(request.getRoleId());
         var user = User.builder()
@@ -36,6 +59,11 @@ public class AuthenticationService {
                 .build();
     }
 
+    /**
+     * @apiNote Autentica un usuario en el sistema
+     * @param request Datos del usuario a autenticar
+     * @return Token JWT generado para el usuario
+     */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
