@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @apiNote Esta clase es el controlador de la autenticación, en ella se definen los endpoints
  */
+@CrossOrigin (origins = Constants.URL_FRONTEND, allowCredentials = "true")
 @RestController
 @RequestMapping("/v1/auth")
-@CrossOrigin (origins = Constants.URL_FRONTEND, allowCredentials = "true")
 public class AuthenticationController {
 
     @Autowired
