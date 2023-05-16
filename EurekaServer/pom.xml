@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com</groupId>
-    <artifactId>eureka-server</artifactId>
+    <artifactId>EurekaServer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>eureka-intellij</name>
     <description>eureka-intellij</description>
@@ -38,6 +38,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -9,10 +9,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+/**
+ * @implNote Clase que interviene en la ejecución de los métodos anotados con @RoleValidation
+ */
 @Aspect
 @Component
 public class RoleInterceptor {
 
+    /**
+     * @implNote Método que se ejecuta antes de la ejecución del método anotado con @RoleValidation
+     * @param joinPoint Punto de unión de la ejecución del método
+     * @param annotation Anotación que contiene los roles permitidos para acceder al método
+     * @throws Throwable Excepción que se lanza si el usuario no tiene permisos suficientes para acceder al método
+     */
     @Around("@annotation(com.example.authconfigurations.auth.annotation.RoleValidation) && @annotation(annotation))")
     public Object roleValidation(ProceedingJoinPoint joinPoint, RoleValidation annotation) throws Throwable {
 
