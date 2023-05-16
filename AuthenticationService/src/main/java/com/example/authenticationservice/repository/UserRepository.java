@@ -1,5 +1,6 @@
-package com.example.authenticationservice.models;
+package com.example.authenticationservice.repository;
 
+import com.example.authenticationservice.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

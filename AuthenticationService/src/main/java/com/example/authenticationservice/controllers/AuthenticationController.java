@@ -2,9 +2,11 @@ package com.example.authenticationservice.controllers;
 
 import com.example.authenticationservice.auth.AuthenticationRequest;
 import com.example.authenticationservice.auth.AuthenticationResponse;
-import com.example.authenticationservice.auth.AuthenticationService;
+import com.example.authenticationservice.service.AuthenticationService;
 import com.example.authenticationservice.auth.RegisterRequest;
+import com.example.authenticationservice.source.Constants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/v1/auth")
-@RequiredArgsConstructor
+@CrossOrigin (origins = Constants.URL_FRONTEND, allowCredentials = "true")
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    @Autowired
+    private  AuthenticationService service;
 
     /**
      * @apiNote Este endpoint se encarga de registrar un usuario

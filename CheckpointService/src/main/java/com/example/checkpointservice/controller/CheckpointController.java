@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/checkpoints")
+@CrossOrigin (origins = Constants.URL_FRONTEND, allowCredentials = "true")
 public class CheckpointController {
 
     @Autowired

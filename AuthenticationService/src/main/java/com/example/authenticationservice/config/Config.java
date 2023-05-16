@@ -1,6 +1,6 @@
 package com.example.authenticationservice.config;
 
-import com.example.authenticationservice.models.UserRepository;
+import com.example.authenticationservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

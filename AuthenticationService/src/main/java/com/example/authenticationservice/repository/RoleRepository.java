@@ -1,5 +1,6 @@
-package com.example.authenticationservice.models;
+package com.example.authenticationservice.repository;
 
+import com.example.authenticationservice.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -13,5 +14,7 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
      * @return El rol encontrado.
      */
     Role findById(int id);
+
+    public Role findByName(String name);
 
 }
