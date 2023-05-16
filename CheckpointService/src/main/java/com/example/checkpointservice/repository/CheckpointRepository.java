@@ -15,7 +15,7 @@ public interface CheckpointRepository extends JpaRepository<Checkpoint, Integer>
     public Checkpoint findByName(String name);
     public Checkpoint findByNameAndIdNot(String name, int id);
 
-    public Optional<Checkpoint> findByIdAndIsDeleted(int id, boolean deleted);
+    public Checkpoint findByIdAndIsDeletedFalse(int id);
 
     public Page<Checkpoint> findByIsDeletedFalse(Pageable pageable);
     public Page<Checkpoint> findByIsDeletedFalseAndIsActiveTrue(Pageable pageable);

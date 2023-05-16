@@ -45,10 +45,14 @@ public class FeeService {
      * @param amount
      */
     public void update(Checkpoint checkpoint, double amount) {
-        Fee fee = feeRepository.findFirstByCheckpointIdAndFeeTypeIdOrderByDateDesc(checkpoint.getId(), feeTypeService.findByName(CheckpointFeeType.OPERATIVE.name()).getId());
+        Fee fee = getCurrentOperativeFee(checkpoint.getId());
         if (fee.getAmount() != amount) {
             add(new Fee(0, checkpoint, fee.getFeeType(), amount, new Date()));
         }
+    }
+
+    public Fee getCurrentOperativeFee(int checkpointId){
+        return feeRepository.findFirstByCheckpointIdAndFeeTypeIdOrderByDateDesc(checkpointId, feeTypeService.findByName(CheckpointFeeType.OPERATIVE.name()).getId());
     }
 
 }
