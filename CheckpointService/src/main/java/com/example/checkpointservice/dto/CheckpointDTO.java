@@ -1,9 +1,12 @@
 package com.example.checkpointservice.dto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
-@Data
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class CheckpointDTO {
 
     private int id;
@@ -13,4 +16,5 @@ public class CheckpointDTO {
     private boolean isActive;
     private boolean isDeleted;
     private double fee;
+
 }
