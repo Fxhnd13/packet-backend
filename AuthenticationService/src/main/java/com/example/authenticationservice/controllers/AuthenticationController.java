@@ -2,9 +2,12 @@ package com.example.authenticationservice.controllers;
 
 import com.example.authenticationservice.auth.AuthenticationRequest;
 import com.example.authenticationservice.auth.AuthenticationResponse;
+import com.example.authenticationservice.kafka.ClientProducer;
 import com.example.authenticationservice.service.AuthenticationService;
 import com.example.authenticationservice.auth.RegisterRequest;
 import com.example.authenticationservice.source.Constants;
+import com.example.basedomains.dto.Client;
+import com.example.basedomains.dto.ClientEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,9 @@ public class AuthenticationController {
     @Autowired
     private  AuthenticationService service;
 
+    @Autowired
+    private ClientProducer clientProducer;
+
     /**
      * @apiNote Este endpoint se encarga de registrar un usuario
      * @param request Es el objeto que contiene los datos del usuario a registrar
@@ -30,6 +36,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ){
+       // clientProducer.sendMessage(new ClientEvent("", "", new Client("nit", "email", "fullname", "numberphone", 34, "address", 2, true)));
         return ResponseEntity.ok(service.register(request));
     }
 

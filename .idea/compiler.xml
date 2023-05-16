@@ -10,6 +10,7 @@
         <module name="EurekaServer" />
         <module name="PackageService" />
         <module name="CheckpointService" />
+        <module name="BaseDomains" />
         <module name="ClientService" />
         <module name="NotificationService" />
         <module name="RouteService" />
@@ -29,6 +30,7 @@
       <module name="AuthConfigurations" options="-parameters" />
       <module name="AuthenticationService" options="-parameters" />
       <module name="BaseDomain" options="-parameters" />
+      <module name="BaseDomains" options="-parameters" />
       <module name="CheckpointService" options="-parameters" />
       <module name="ClientService" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
