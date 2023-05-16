@@ -89,7 +89,9 @@ public class CheckpointController {
     public ResponseEntity<CheckpointDTO> getCheckpoint(@PathVariable int id
     ){
         try{
-            return null;
+            return checkpointService.getCheckpoint(id);
+        }  catch (ElementNoExistsException e) {
+            return new ResponseEntity(e.getError(), HttpStatus.NOT_FOUND);
         } catch(Exception e){
             return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }

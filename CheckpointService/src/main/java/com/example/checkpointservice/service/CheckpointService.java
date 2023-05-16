@@ -2,7 +2,9 @@ package com.example.checkpointservice.service;
 
 import com.example.checkpointservice.dto.CheckpointDTO;
 import com.example.checkpointservice.model.Checkpoint;
+import com.example.checkpointservice.model.Fee;
 import com.example.checkpointservice.repository.CheckpointRepository;
+import com.example.checkpointservice.repository.FeeTypeRepository;
 import com.example.checkpointservice.source.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class CheckpointService {
@@ -25,6 +26,7 @@ public class CheckpointService {
 
     @Autowired
     private PackageInformationService packageInformationService;
+
 
     /**
      * Metodo que guarda un nuevo punto de control. Hace un llamado para almacenar un nuevo regsitro en la tabla fee
@@ -82,40 +84,68 @@ public class CheckpointService {
         feeService.update(checkpoint, checkpointDTO.getFee());
     }
 
+    /**
+     * Metodo que actualiza el estado deleted de un punto de control.
+     * @param id
+     * @throws NoEmptyCheckpointException
+     * @throws ElementNoExistsException
+     */
     public void delete(int id) throws NoEmptyCheckpointException, ElementNoExistsException {
         validateCheckpointIsEmpty(id, null);
-        Checkpoint checkpoint = get(id);
+        Checkpoint checkpoint = checkpointRepository.findByIdAndIsDeletedFalse(id);
+        if (checkpoint == null)
+            throw  new ElementNoExistsException();
         checkpoint.setDeleted(true);
         checkpointRepository.save(checkpoint);
     }
 
-    public Checkpoint get(int id) throws ElementNoExistsException {
-        Optional<Checkpoint> object =  checkpointRepository.findByIdAndIsDeleted(id, false);
-        if(object.isEmpty())
-            throw new ElementNoExistsException();
-        return object.get();
-    }
-
+    /**
+     * Metodo que obtiene un listado paginado de todos los puntos de control no eliminados sin importar su estado activo.
+     * Permite obtener un listado en base a un patron de busqueda.
+     * @param pattern
+     * @param page
+     * @param size
+     * @return
+     */
     public Page<Checkpoint> getAll( String pattern,  int page, int size){
         if(pattern == null)
             return checkpointRepository.findByIsDeletedFalse(PageRequest.of(page, size, Sort.by("id")));
-
        if(pattern.matches("[0-9]+"))
             return checkpointRepository.findByIdStartingWith(Integer.parseInt(pattern), PageRequest.of(page, size, Sort.by("id")));
-
        else
            return checkpointRepository.findByIsDeletedFalseAndNameIgnoreCaseContaining(pattern, PageRequest.of(page, size, Sort.by("id")));
     }
 
+    /**
+     * Metodo que obtiene un listado paginado de todos los puntos de control no eliminados y cuyo estado active sea true
+     * Permite obtener un listado en base a un patron de busqueda.
+     * @param pattern
+     * @param page
+     * @param size
+     * @return
+     */
     public Page<Checkpoint> getAllActive( String pattern,  int page, int size){
         if(pattern == null)
             return checkpointRepository.findByIsDeletedFalseAndIsActiveTrue(PageRequest.of(page, size, Sort.by("id")));
-
         if(pattern.matches("[0-9]+"))
             return checkpointRepository.findByIdStartingWithAndIsActiveTrue(Integer.parseInt(pattern), PageRequest.of(page, size, Sort.by("id")));
-
         else
             return checkpointRepository.findByIsDeletedFalseAndIsActiveTrueAndNameIgnoreCaseContaining(pattern, PageRequest.of(page, size, Sort.by("id")));
+    }
+
+    public ResponseEntity<CheckpointDTO> getCheckpoint(int id) throws ElementNoExistsException {
+        Checkpoint checkpoint = checkpointRepository.findByIdAndIsDeletedFalse(id);
+        Fee fee = feeService.getCurrentOperativeFee(id);
+        if (checkpoint == null || fee == null)
+            throw  new ElementNoExistsException();
+
+        return new ResponseEntity<CheckpointDTO>(
+            new CheckpointDTO(
+                checkpoint,
+                fee.getAmount()
+            ),
+            HttpStatus.OK
+        );
     }
 
     /**
