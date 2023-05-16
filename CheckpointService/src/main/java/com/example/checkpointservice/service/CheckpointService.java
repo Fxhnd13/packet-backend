@@ -96,19 +96,26 @@ public class CheckpointService {
         return object.get();
     }
 
-    public Page<Checkpoint> getAll(int page, int size){
-        return checkpointRepository.findAll(PageRequest.of(page, size, Sort.by("name")));
-    }
-
-    public Page<Checkpoint> getAll(String pattern,  int page, int size){
+    public Page<Checkpoint> getAll( String pattern,  int page, int size){
         if(pattern == null)
-            return checkpointRepository.findAll(PageRequest.of(page, size, Sort.by("id")));
+            return checkpointRepository.findByIsDeletedFalse(PageRequest.of(page, size, Sort.by("id")));
 
        if(pattern.matches("[0-9]+"))
-            return checkpointRepository.findByIdStartingWith(Integer.valueOf(pattern), PageRequest.of(page, size, Sort.by("id")));
+            return checkpointRepository.findByIdStartingWith(Integer.parseInt(pattern), PageRequest.of(page, size, Sort.by("id")));
 
        else
-           return checkpointRepository.findByNameIgnoreCaseContaining(pattern, PageRequest.of(page, size, Sort.by("name")));
+           return checkpointRepository.findByIsDeletedFalseAndNameIgnoreCaseContaining(pattern, PageRequest.of(page, size, Sort.by("id")));
+    }
+
+    public Page<Checkpoint> getAllActive( String pattern,  int page, int size){
+        if(pattern == null)
+            return checkpointRepository.findByIsDeletedFalseAndIsActiveTrue(PageRequest.of(page, size, Sort.by("id")));
+
+        if(pattern.matches("[0-9]+"))
+            return checkpointRepository.findByIdStartingWithAndIsActiveTrue(Integer.parseInt(pattern), PageRequest.of(page, size, Sort.by("id")));
+
+        else
+            return checkpointRepository.findByIsDeletedFalseAndIsActiveTrueAndNameIgnoreCaseContaining(pattern, PageRequest.of(page, size, Sort.by("id")));
     }
 
     /**
@@ -136,7 +143,6 @@ public class CheckpointService {
             (checkpointDTO.getLatitude().isBlank() || checkpointDTO.getLatitude().isEmpty()) ||
             (checkpointDTO.getName().isBlank() || checkpointDTO.getName().isEmpty())
         ) throw new RequiredFieldException();
-
     }
 
     /**

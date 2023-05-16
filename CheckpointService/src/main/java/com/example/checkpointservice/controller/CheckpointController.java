@@ -70,4 +70,29 @@ public class CheckpointController {
         }
     }
 
+    @GetMapping("/active-checkpoints")
+    @RoleValidation("ADMIN")
+    public ResponseEntity<Page<Checkpoint>> getActiveCheckpoints(
+            @RequestParam(required = false) String pattern,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        try{
+            return new ResponseEntity<>(checkpointService.getAllActive(pattern, page, size), HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    @RoleValidation("ADMIN")
+    public ResponseEntity<CheckpointDTO> getCheckpoint(@PathVariable int id
+    ){
+        try{
+            return null;
+        } catch(Exception e){
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

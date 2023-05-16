@@ -17,8 +17,17 @@ public interface CheckpointRepository extends JpaRepository<Checkpoint, Integer>
 
     public Optional<Checkpoint> findByIdAndIsDeleted(int id, boolean deleted);
 
-    @Query(value="SELECT * FROM checkpoint WHERE CAST(id AS TEXT) LIKE ?1%", nativeQuery = true)
+    public Page<Checkpoint> findByIsDeletedFalse(Pageable pageable);
+    public Page<Checkpoint> findByIsDeletedFalseAndIsActiveTrue(Pageable pageable);
+
+    @Query(value="SELECT * FROM checkpoint WHERE CAST(id AS TEXT) LIKE ?1%  AND deleted=false", nativeQuery = true)
     public Page<Checkpoint> findByIdStartingWith(int id, Pageable pageable);
-    public Page<Checkpoint> findByNameIgnoreCaseContaining(String name, Pageable pageable);
+
+    @Query(value="SELECT * FROM checkpoint WHERE CAST(id AS TEXT) LIKE ?1%  AND deleted=false AND active=true", nativeQuery = true)
+    public Page<Checkpoint> findByIdStartingWithAndIsActiveTrue(int id, Pageable pageable);
+
+    public Page<Checkpoint> findByIsDeletedFalseAndNameIgnoreCaseContaining(String name, Pageable pageable);
+
+    public Page<Checkpoint> findByIsDeletedFalseAndIsActiveTrueAndNameIgnoreCaseContaining(String name, Pageable pageable);
 
 }
