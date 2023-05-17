@@ -1,12 +1,12 @@
 package com.example.checkpointservice.service;
 
 
+import com.example.basedomains.exception.NotANumberException;
+import com.example.basedomains.exception.RequiredFieldException;
 import com.example.checkpointservice.model.Checkpoint;
 import com.example.checkpointservice.model.Fee;
 import com.example.checkpointservice.repository.FeeRepository;
 import com.example.checkpointservice.source.CheckpointFeeType;
-import com.example.checkpointservice.source.NotANumberException;
-import com.example.checkpointservice.source.RequiredFieldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

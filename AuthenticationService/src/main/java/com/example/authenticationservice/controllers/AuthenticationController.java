@@ -2,13 +2,12 @@ package com.example.authenticationservice.controllers;
 
 import com.example.authenticationservice.auth.AuthenticationRequest;
 import com.example.authenticationservice.auth.AuthenticationResponse;
-import com.example.authenticationservice.kafka.ClientProducer;
+import com.example.authenticationservice.kafka.producer.ClientProducer;
 import com.example.authenticationservice.service.AuthenticationService;
 import com.example.authenticationservice.auth.RegisterRequest;
-import com.example.authenticationservice.source.Constants;
+import com.example.basedomains.constants.Constants;
 import com.example.basedomains.dto.Client;
 import com.example.basedomains.dto.ClientEvent;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

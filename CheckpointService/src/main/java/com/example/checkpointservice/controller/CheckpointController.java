@@ -1,10 +1,11 @@
 package com.example.checkpointservice.controller;
 
 import com.example.authconfigurations.auth.annotation.RoleValidation;
+import com.example.basedomains.constants.Constants;
+import com.example.basedomains.exception.*;
 import com.example.checkpointservice.dto.CheckpointDTO;
 import com.example.checkpointservice.model.Checkpoint;
 import com.example.checkpointservice.service.CheckpointService;
-import com.example.checkpointservice.source.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,8 @@ public class CheckpointController {
         try{
             checkpointService.update(checkpoint);
             return ResponseEntity.ok().build();
-        } catch (NameAlreadyRegisteredException | RequiredFieldException | NotANumberException | NoEmptyCheckpointException e ){
+        } catch (NameAlreadyRegisteredException | RequiredFieldException | NotANumberException |
+                 NoEmptyCheckpointException e ){
             return new ResponseEntity(e.getError(),  HttpStatus.BAD_REQUEST);
         } catch (Exception ex){
             return  new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);

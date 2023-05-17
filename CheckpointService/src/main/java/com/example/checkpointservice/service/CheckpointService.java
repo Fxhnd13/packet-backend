@@ -1,11 +1,10 @@
 package com.example.checkpointservice.service;
 
+import com.example.basedomains.exception.*;
 import com.example.checkpointservice.dto.CheckpointDTO;
 import com.example.checkpointservice.model.Checkpoint;
 import com.example.checkpointservice.model.Fee;
 import com.example.checkpointservice.repository.CheckpointRepository;
-import com.example.checkpointservice.repository.FeeTypeRepository;
-import com.example.checkpointservice.source.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
