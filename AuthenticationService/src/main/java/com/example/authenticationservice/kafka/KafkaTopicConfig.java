@@ -8,11 +8,11 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaTopicConfig {
 
-    private String topicName = "spring.kafka.topic.clientTopic";
+   /* private String topicName = "spring.kafka.topic.clientTopic";
 
     @Bean
     public NewTopic topic(){
         return TopicBuilder.name(topicName)
                 .build();
-    }
+    }*/
 }

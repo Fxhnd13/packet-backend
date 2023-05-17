@@ -36,7 +36,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ){
-       // clientProducer.sendMessage(new ClientEvent("", "", new Client("nit", "email", "fullname", "numberphone", 34, "address", 2, true)));
+        clientProducer.sendMessage(new ClientEvent("", "", new Client("nit", "email", "fullname", "numberphone", 34, "address", 2, true)));
         return ResponseEntity.ok(service.register(request));
     }
 

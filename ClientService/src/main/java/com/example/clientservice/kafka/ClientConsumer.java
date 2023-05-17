@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientConsumer {
 
-   @KafkaListener(topics = "spring.kafka.topic.clientTopic", groupId = "spring.kafka.consumer.group-id")
+    //, groupId = "spring.kafka.consumer.group-id"
+ /*  @KafkaListener(topics = "spring.kafka.topic.name")
     public void consume(ClientEvent event){
        System.out.println("MICROSERVICIO DE CLIENTES");
        System.out.println(event.getClient().toString());
-    }
+    }*/
 }
