@@ -1,4 +1,4 @@
-package com.example.authenticationservice.source;
+package com.example.basedomains.constants;
 
 public class Constants {
 

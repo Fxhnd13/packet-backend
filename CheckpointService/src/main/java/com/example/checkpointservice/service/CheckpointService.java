@@ -1,11 +1,10 @@
 package com.example.checkpointservice.service;
 
+import com.example.basedomains.exception.*;
 import com.example.checkpointservice.dto.CheckpointDTO;
 import com.example.checkpointservice.model.Checkpoint;
 import com.example.checkpointservice.model.Fee;
 import com.example.checkpointservice.repository.CheckpointRepository;
-import com.example.checkpointservice.repository.FeeTypeRepository;
-import com.example.checkpointservice.source.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,10 +28,10 @@ public class CheckpointService {
 
 
     /**
-     * Metodo que guarda un nuevo punto de control. Hace un llamado para almacenar un nuevo regsitro en la tabla fee
+     * @apiNote Registra un nuevo punto de control. Hace un llamado para almacenar un nuevo registro en la tabla fee
      * correspondiente al punto de control que se esta creando.
-     * @param checkpointDTO
-     * @return
+     * @param checkpointDTO Datos del punto de control
+     * @return El punto de control registrado dentro de un objeto ResponseEntity
      * @throws NameAlreadyRegisteredException
      * @throws RequiredFieldException
      * @throws NotANumberException
@@ -58,9 +57,8 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que actualiza un punto de control. Realiza un llamado para actualizar la
-     * tarifa correspondiente al punto de control actualizado.
-     * @param checkpointDTO
+     * @apiNote  Actualiza un punto de control. Realiza un llamado para actualizar la tarifa correspondiente al punto de control.
+     * @param checkpointDTO Datos del punto de control
      * @throws NameAlreadyRegisteredException
      * @throws RequiredFieldException
      * @throws NotANumberException
@@ -85,8 +83,8 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que actualiza el estado deleted de un punto de control.
-     * @param id
+     * @apiNote Actualiza el estado deleted de un punto de control.
+     * @param id Id del punto de control
      * @throws NoEmptyCheckpointException
      * @throws ElementNoExistsException
      */
@@ -100,12 +98,12 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que obtiene un listado paginado de todos los puntos de control no eliminados sin importar su estado activo.
+     * @apiNote  Obtiene un listado paginado de todos los puntos de control no eliminados sin importar su estado activo.
      * Permite obtener un listado en base a un patron de busqueda.
-     * @param pattern
-     * @param page
-     * @param size
-     * @return
+     * @param pattern Patron de busqueda
+     * @param page Numero de pagina
+     * @param size Tamaño de de pagina
+     * @return Listado paginado de puntos de control
      */
     public Page<Checkpoint> getAll( String pattern,  int page, int size){
         if(pattern == null)
@@ -117,12 +115,12 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que obtiene un listado paginado de todos los puntos de control no eliminados y cuyo estado active sea true
+     * @apiNote Obtiene un listado paginado de todos los puntos de control no eliminados y cuyo estado active sea true
      * Permite obtener un listado en base a un patron de busqueda.
-     * @param pattern
-     * @param page
-     * @param size
-     * @return
+     * @param pattern Patron de busqueda
+     * @param page Numero de pagina
+     * @param size Tamaño de la pagina
+     * @return Listado paginado de puntos de control activos
      */
     public Page<Checkpoint> getAllActive( String pattern,  int page, int size){
         if(pattern == null)
@@ -149,9 +147,8 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que llama a la ejecucion de validaciones de campos obligatorios
-     * y a validacion de tarifa.
-     * @param checkpointDTO
+     * @apiNote  Llama a la ejecucion de validaciones de campos obligatorios y a validacion de tarifa.
+     * @param checkpointDTO Campos a validar
      * @throws RequiredFieldException
      * @throws NotANumberException
      * @throws NameAlreadyRegisteredException
@@ -162,9 +159,8 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que valida que los atributos del punto de control no esten vacios y que no
-     * esten en blanco.
-     * @param checkpointDTO
+     * @apiNote Valida que los atributos del punto de control no esten vacios y que no esten en blanco.
+     * @param checkpointDTO Datos a validar
      * @throws RequiredFieldException
      */
     private void validateRequiredFields(CheckpointDTO checkpointDTO) throws RequiredFieldException {
@@ -176,8 +172,8 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que valida que la tarifa no sea vacia y que sea un numero valido.
-     * @param fee
+     * @apiNote Valida que la tarifa no sea vacia y que sea un numero valido.
+     * @param fee Tarifa
      * @throws RequiredFieldException
      * @throws NotANumberException
      */
@@ -190,9 +186,8 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que valida que el nombre del punto de control no  este previamente registrado en
-     * otro punto de control.
-     * @param name
+     * @apiNote  Valida que el nombre del punto de control no  este previamente registrado en otro punto de control.
+     * @param name Nombre del punto de control
      * @throws NameAlreadyRegisteredException
      */
     private void validateNameIsUnique(String name) throws NameAlreadyRegisteredException {
@@ -201,10 +196,10 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que valida que el nombre del punto de control no este registrado en algun punto de control
+     * @apiNote  Valida que el nombre del punto de control no este registrado en algun punto de control
      * que no sea el que esta identificado por el id recibido.
-     * @param name
-     * @param id
+     * @param name Nombre del punto de control
+     * @param id Id del punto de control
      * @throws NameAlreadyRegisteredException
      */
     private void validateUpdatedNameIsUnique(String name, int id) throws NameAlreadyRegisteredException{
@@ -213,10 +208,10 @@ public class CheckpointService {
     }
 
     /**
-     * Metodo que valida que no exista ningun paquete por procesar en el punto de control
+     * @apiNote  Valida que no exista ningun paquete por procesar en el punto de control
      * cuyo id se recibe como parametro.
-     * @param id
-     * @param date
+     * @param id Id del punto de control
+     * @param date Fecha
      * @throws NoEmptyCheckpointException
      */
     private void validateCheckpointIsEmpty(int id, Date date) throws NoEmptyCheckpointException {

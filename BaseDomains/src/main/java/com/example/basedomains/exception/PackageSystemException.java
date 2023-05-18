@@ -1,4 +1,4 @@
-package com.example.checkpointservice.source;
+package com.example.basedomains.exception;
 
 import lombok.Getter;
 import lombok.Setter;

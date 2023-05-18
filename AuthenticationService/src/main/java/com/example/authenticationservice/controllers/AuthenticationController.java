@@ -4,11 +4,17 @@ import com.example.authenticationservice.auth.AuthenticationRequest;
 import com.example.authenticationservice.auth.AuthenticationResponse;
 import com.example.authenticationservice.service.AuthenticationService;
 import com.example.authenticationservice.auth.RegisterRequest;
-import com.example.authenticationservice.source.Constants;
-import lombok.RequiredArgsConstructor;
+import com.example.basedomains.constants.Constants;
+import com.example.basedomains.exception.Error;
+import com.example.basedomains.exception.NameAlreadyRegisteredException;
+import com.example.basedomains.exception.RequiredFieldException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
 
 /**
  * @apiNote Esta clase es el controlador de la autenticación, en ella se definen los endpoints
@@ -21,6 +27,7 @@ public class AuthenticationController {
     @Autowired
     private  AuthenticationService service;
 
+
     /**
      * @apiNote Este endpoint se encarga de registrar un usuario
      * @param request Es el objeto que contiene los datos del usuario a registrar
@@ -30,7 +37,13 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ){
-        return ResponseEntity.ok(service.register(request));
+        try{
+            return ResponseEntity.ok(service.register(request));
+        } catch (RequiredFieldException | NameAlreadyRegisteredException e){
+            return new ResponseEntity(e.getError(),  HttpStatus.BAD_REQUEST);
+        } catch (Exception ex){
+            return  new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -42,7 +55,13 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ){
-        return ResponseEntity.ok(service.authenticate(request));
+        try{
+            return ResponseEntity.ok(service.authenticate(request));
+        } catch (BadCredentialsException e){
+            return new ResponseEntity(new Error("Nombre de usuario o contraseña incorrectos."),  HttpStatus.BAD_REQUEST);
+        } catch (Exception ex){
+            return  new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

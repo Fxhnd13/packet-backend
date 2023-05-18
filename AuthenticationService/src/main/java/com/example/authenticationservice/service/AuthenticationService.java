@@ -4,12 +4,16 @@ import com.example.authconfigurations.auth.jwt.JwtService;
 import com.example.authenticationservice.auth.AuthenticationRequest;
 import com.example.authenticationservice.auth.AuthenticationResponse;
 import com.example.authenticationservice.auth.RegisterRequest;
-import com.example.authenticationservice.models.Role;
+import com.example.authenticationservice.kafka.producer.ClientProducer;
 import com.example.authenticationservice.repository.RoleRepository;
 import com.example.authenticationservice.models.User;
 import com.example.authenticationservice.repository.UserRepository;
 import com.example.authenticationservice.source.RoleType;
+import com.example.basedomains.dto.ClientDTO;
+import com.example.basedomains.exception.NameAlreadyRegisteredException;
+import com.example.basedomains.exception.RequiredFieldException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +31,7 @@ public class AuthenticationService {
     /**
      * @implNote Repositorio para las consultas relacionadas con usuarios
      */
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     /**
      * @implNote Repositorio para las consultas relacionadas con roles
      */
@@ -45,22 +49,45 @@ public class AuthenticationService {
      */
     private final AuthenticationManager authenticationManager;
 
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ClientProducer clientProducer;
+
     /**
-     * @apiNote Registra un nuevo usuario en la base de datos
+     * @apiNote Registra un nuevo usuario de tipo cliente en la base de datos y lanza un evento para registrar el cliente correspondiente al usuario.
      * @param request Datos del usuario a registrar
      * @return Token JWT generado para el usuario
      */
-    public AuthenticationResponse register(RegisterRequest request) {
-        Role role = roleRepository.findByName(RoleType.CLIENT.name());
+    public AuthenticationResponse register(RegisterRequest request) throws RequiredFieldException, NameAlreadyRegisteredException {
+        userService.validateRequiredFields(request);
+        userService.validateUsernameIsUnique(request.getUsername());
         var user = User.builder()
                 .fullname(request.getFullname())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.builder().id(request.getRoleId()).name(role.getName()).build())
+                .role(roleRepository.findByName(RoleType.CLIENT.name()))
                 .build();
-        repository.save(user);
+        User savedUser = userRepository.save(user);
 
         //Evento para crear cliente
+        clientProducer.sendClient(
+            ClientDTO.builder()
+                .fullname(request.getFullname())
+                .email(request.getEmail())
+                .nit(request.getNit())
+                .age(request.getAge())
+                .address(request.getAddress())
+                .numberPhone(request.getNumberPhone())
+                .idUser(savedUser.getId())
+                .build()
+        );
+
+        //JWT
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -79,7 +106,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = repository.findByUsername(request.getUsername())
+        var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -87,38 +114,13 @@ public class AuthenticationService {
                 .build();
     }
 
+    /**
+     * @apiNote Llama  a la creacion de los roles y usuario administrador por defecto al momento de iniciar la aplicacion.
+     */
     @EventListener(ApplicationReadyEvent.class)
     private void initialize(){
-        addRoles();
-        addAdmin();
+        roleService.addRoles();
+        userService.addAdmin();
     }
 
-    /**
-     * Metodo que verifica los roles, si no existen datos sobre los Roles, inserta en la base de datos los tres tipos de
-     * roles que existen en el sistema.
-     */
-    private  void addRoles(){
-        if(roleRepository.count() == 0){
-            roleRepository.save(new Role(1, RoleType.ADMIN.name(), "Administador"));
-            roleRepository.save(new Role(2, RoleType.OPERATOR.name(), "Operador"));
-            roleRepository.save(new Role(3, RoleType.CLIENT.name(), "Cliente"));
-        }
-    }
-
-    /**
-     * Metodo que verifica el usuario administrador por default, si este no existe en la base de datos lo crea.
-     */
-    private void addAdmin(){
-        if(repository.findByUsername(RoleType.ADMIN.name()).isEmpty()){
-            repository.save(
-                new User(
-                0,
-                    RoleType.ADMIN.name(),
-            "Default System Administrator",
-                    passwordEncoder.encode("admin"),
-                    roleRepository.findByName(RoleType.ADMIN.name())
-                )
-            );
-        }
-    }
 }
