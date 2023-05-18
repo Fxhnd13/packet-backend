@@ -21,4 +21,8 @@ public class Order {
     @Column(name = "total")
     private double total;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_client")
+    private Client client;
+
 }

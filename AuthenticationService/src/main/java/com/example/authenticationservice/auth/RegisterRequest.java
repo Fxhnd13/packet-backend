@@ -1,5 +1,7 @@
 package com.example.authenticationservice.auth;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,21 +16,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
 
-    /**
-     * @implNote Nombre completo del usuario
-     */
     private String fullname;
-    /**
-     * @implNote Correo electrónico del usuario
-     */
     private String password;
-    /**
-     * @implNote Nombre de usuario del usuario
-     */
     private String username;
-    /**
-     * @implNote Rol del usuario
-     */
-    private int roleId;
-
+    private String nit;
+    private String email;
+    private String numberPhone;
+    private Integer age;
+    private String address;
 }

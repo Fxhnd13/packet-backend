@@ -1,11 +1,17 @@
 package com.example.clientservice.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "client")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client {
 
     @Id
@@ -30,6 +36,4 @@ public class Client {
     @Column(name = "id_user")
     private int idUser;
 
-    @Column(name = "priority")
-    private boolean priority;
 }

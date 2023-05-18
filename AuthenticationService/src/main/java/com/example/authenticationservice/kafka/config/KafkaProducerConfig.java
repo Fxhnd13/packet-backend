@@ -1,8 +1,8 @@
-package com.example.authenticationservice.kafka.conf;
+package com.example.authenticationservice.kafka.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.basedomains.dto.ClientEvent;
+import com.example.basedomains.dto.ClientDTO;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 @Configuration
 public class KafkaProducerConfig {
     @Bean
-    public ProducerFactory<String, ClientEvent> producerFactory() {
+    public ProducerFactory<String, ClientDTO> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
@@ -22,7 +22,7 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(configProps);
     }
     @Bean
-    public KafkaTemplate<String, ClientEvent> kafkaTemplate() {
+    public KafkaTemplate<String, ClientDTO> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

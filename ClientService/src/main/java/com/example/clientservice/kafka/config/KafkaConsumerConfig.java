@@ -1,11 +1,10 @@
-package com.example.clientservice.kafka.conf;
+package com.example.clientservice.kafka.config;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.basedomains.dto.ClientEvent;
+import com.example.basedomains.dto.ClientDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -18,7 +17,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 @Configuration
 public class KafkaConsumerConfig {
     @Bean
-    public ConsumerFactory<String, ClientEvent> consumerFactory() {
+    public ConsumerFactory<String, ClientDTO> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "group-id");
@@ -29,8 +28,8 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(props);
     }
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ClientEvent> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ClientEvent>
+    public ConcurrentKafkaListenerContainerFactory<String, ClientDTO> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ClientDTO>
                 factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
