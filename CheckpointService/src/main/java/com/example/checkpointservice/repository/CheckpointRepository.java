@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public interface CheckpointRepository extends JpaRepository<Checkpoint, Integer> {
 
-    public Checkpoint findByName(String name);
-    public Checkpoint findByNameAndIdNot(String name, int id);
+    public Checkpoint findByNameAndIsDeletedFalse(String name);
+    public Checkpoint findByNameAndIdNotAndIsDeletedFalse(String name, int id);
 
     public Checkpoint findByIdAndIsDeletedFalse(int id);
 

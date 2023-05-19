@@ -1,7 +1,7 @@
 package com.example.checkpointservice.service;
 
 import com.example.basedomains.exception.*;
-import com.example.checkpointservice.dto.CheckpointDTO;
+import com.example.basedomains.dto.CheckpointDTO;
 import com.example.checkpointservice.model.Checkpoint;
 import com.example.checkpointservice.model.Fee;
 import com.example.checkpointservice.repository.CheckpointRepository;
@@ -138,13 +138,19 @@ public class CheckpointService {
             throw  new ElementNoExistsException();
 
         return new ResponseEntity<CheckpointDTO>(
-            new CheckpointDTO(
-                checkpoint,
-                fee.getAmount()
-            ),
+            CheckpointDTO.builder()
+                .id(checkpoint.getId())
+                .name(checkpoint.getName())
+                .latitude(checkpoint.getLatitude())
+                .length(checkpoint.getLength())
+                .isActive(checkpoint.isActive())
+                .isDeleted(checkpoint.isDeleted())
+                .fee(fee.getAmount())
+                .build(),
             HttpStatus.OK
         );
     }
+
 
     /**
      * @apiNote  Llama a la ejecucion de validaciones de campos obligatorios y a validacion de tarifa.
@@ -164,10 +170,9 @@ public class CheckpointService {
      * @throws RequiredFieldException
      */
     private void validateRequiredFields(CheckpointDTO checkpointDTO) throws RequiredFieldException {
-        if(
-            (checkpointDTO.getLength().isBlank() || checkpointDTO.getLength().isEmpty()) ||
-            (checkpointDTO.getLatitude().isBlank() || checkpointDTO.getLatitude().isEmpty()) ||
-            (checkpointDTO.getName().isBlank() || checkpointDTO.getName().isEmpty())
+        if((checkpointDTO.getLength() == null || checkpointDTO.getLength().isBlank() || checkpointDTO.getLength().isEmpty()) ||
+            (checkpointDTO.getLatitude() == null || checkpointDTO.getLatitude().isBlank() || checkpointDTO.getLatitude().isEmpty()) ||
+            (checkpointDTO.getName() == null || checkpointDTO.getName().isBlank() || checkpointDTO.getName().isEmpty())
         ) throw new RequiredFieldException();
     }
 
@@ -191,7 +196,7 @@ public class CheckpointService {
      * @throws NameAlreadyRegisteredException
      */
     private void validateNameIsUnique(String name) throws NameAlreadyRegisteredException {
-        if (checkpointRepository.findByName(name) != null)
+        if (checkpointRepository.findByNameAndIsDeletedFalse(name) != null)
              throw new NameAlreadyRegisteredException("Nombre de punto de control ya registrado en el sistema.");
     }
 
@@ -203,7 +208,7 @@ public class CheckpointService {
      * @throws NameAlreadyRegisteredException
      */
     private void validateUpdatedNameIsUnique(String name, int id) throws NameAlreadyRegisteredException{
-        if (checkpointRepository.findByNameAndIdNot(name, id) != null)
+        if (checkpointRepository.findByNameAndIdNotAndIsDeletedFalse(name, id) != null)
              throw new NameAlreadyRegisteredException("Nombre de punto de control ya registrado en el sistema.");
     }
 
