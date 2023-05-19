@@ -10,4 +10,8 @@ public class NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
 
+    public String sendNotification() {
+
+        return "Notification sent successfully";
+    }
 }
