@@ -45,13 +45,15 @@ public class RouteController {
 
     @DeleteMapping("/{id}")
     @RoleValidation({"ADMIN"})
-    public ResponseEntity<Route> deleteRoute(@PathVariable int id) throws NoEmptyRouteException {
+    public ResponseEntity<Route> deleteRoute(@PathVariable int id)  {
         try{
             routeService.delete(id);
             return ResponseEntity.ok().build();
         } catch (ElementNoExistsException e){
             return  new ResponseEntity(e.getError(), HttpStatus.NOT_FOUND);
-        }catch (Exception ex){
+        } catch (NoEmptyRouteException ne){
+            return new ResponseEntity(ne.getError(), HttpStatus.BAD_REQUEST);
+        } catch (Exception ex){
             return  new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
