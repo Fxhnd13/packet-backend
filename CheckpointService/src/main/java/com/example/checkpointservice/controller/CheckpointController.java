@@ -3,7 +3,7 @@ package com.example.checkpointservice.controller;
 import com.example.authconfigurations.auth.annotation.RoleValidation;
 import com.example.basedomains.constants.Constants;
 import com.example.basedomains.exception.*;
-import com.example.checkpointservice.dto.CheckpointDTO;
+import com.example.basedomains.dto.CheckpointDTO;
 import com.example.checkpointservice.model.Checkpoint;
 import com.example.checkpointservice.service.CheckpointService;
 import org.springframework.beans.factory.annotation.Autowired;
