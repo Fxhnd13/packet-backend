@@ -5,6 +5,8 @@ import com.example.routeservice.repository.EdgeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EdgeService {
 
@@ -26,5 +28,15 @@ public class EdgeService {
         );
         return edge;
     }
+
+
+    /**
+     * Elimina de la base de datos el edge cuyo id se recibe como parametro.
+      * @param id Id del edge
+     */
+    public void deleteEdge(int id){
+       edgeRepository.deleteById(id);
+    }
+
 
 }

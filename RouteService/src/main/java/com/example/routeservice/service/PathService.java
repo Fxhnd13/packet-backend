@@ -7,6 +7,8 @@ import com.example.routeservice.repository.PathRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PathService {
 
@@ -26,6 +28,20 @@ public class PathService {
               .route(route)
               .build()
         );
+    }
+
+    public void deleteAllPathsByRoute(int id){
+        pathRepository.deleteAllByRouteId(id);
+    }
+
+    /**
+     * @apiNote Obtiene un listado con los id's de los edge que estan registrados con un id de ruta
+     * igual al parametro que se recibe.
+     * @param id
+     * @return
+     */
+    public List<Path> getEdgesByRouteId(int id){
+        return pathRepository.findByRouteId(id);
     }
 
 }

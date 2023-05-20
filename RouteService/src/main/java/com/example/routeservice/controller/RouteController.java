@@ -29,14 +29,14 @@ public class RouteController {
             return  new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-/*
+
     @PutMapping("/")
     @RoleValidation({"ADMIN"})
     public ResponseEntity<Route> updateRoute(@RequestBody RouteDTO route){
         try{
-            routeService.update(checkpoint);
+            routeService.update(route);
             return ResponseEntity.ok().build();
-        } catch (NameAlreadyRegisteredException | RequiredFieldException | NoEmptyRouteException e ){
+        } catch (NameAlreadyRegisteredException | RequiredFieldException | NoEmptyRouteException | ElementNoExistsException e ){
             return new ResponseEntity(e.getError(),  HttpStatus.BAD_REQUEST);
         } catch (Exception ex){
             return  new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,7 +71,7 @@ public class RouteController {
     }
 
     @GetMapping("/active-routes")
-    @RoleValidation("ADMIN")
+    @RoleValidation({"ADMIN", "OPERATOR"})
     public ResponseEntity<Page<Route>> getActiveRoutes(
             @RequestParam(required = false) String pattern,
             @RequestParam(defaultValue = "0") int page,
@@ -84,12 +84,13 @@ public class RouteController {
         }
     }
 
+/*
     @GetMapping("/{id}")
     @RoleValidation("ADMIN")
     public ResponseEntity<RouteDTO> getRoute(@PathVariable int id
     ){
         try{
-            return routeService.getCheckpoint(id);
+            return routeService.getRoute(id);
         }  catch (ElementNoExistsException e) {
             return new ResponseEntity(e.getError(), HttpStatus.NOT_FOUND);
         } catch(Exception e){

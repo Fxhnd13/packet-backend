@@ -4,6 +4,7 @@ import com.example.basedomains.dto.CheckpointDTO;
 import com.example.basedomains.dto.RouteDTO;
 import com.example.basedomains.exception.*;
 import com.example.routeservice.model.Edge;
+import com.example.routeservice.model.Path;
 import com.example.routeservice.model.Route;
 import com.example.routeservice.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RouteService {
@@ -47,12 +48,101 @@ public class RouteService {
                 .description(routeDTO.getDescription())
                 .isActive(true)
                 .isDeleted(false)
+                .packagesOnRoute(0)
                 .build()
         );
 
         createPath(routeDTO.getCheckpoints(), route);
         return new ResponseEntity<Route>(route, HttpStatus.CREATED);
     }
+
+    /**
+     * @apiNote  Actualiza una ruta  Realiza un llamado para actualizar la estructura de la ruta..
+     * @param routeDTO Datos de la ruta
+     * @throws NameAlreadyRegisteredException
+     * @throws RequiredFieldException
+     * @throws NotANumberException
+     */
+    public void update(RouteDTO routeDTO) throws NameAlreadyRegisteredException, RequiredFieldException, NoEmptyRouteException, EmptyRouteException, ElementNoExistsException {
+        validateData(routeDTO);
+        validateRouteIsEmpty(routeDTO.getId());
+        validateUpdatedNameIsUnique(routeDTO.getName(), routeDTO.getId());
+
+        Route route =  routeRepository.save(
+            Route.builder()
+                .id(routeDTO.getId())
+                .name(routeDTO.getName())
+                .description(routeDTO.getDescription())
+                .isDeleted(false)
+                .isActive(routeDTO.isActive())
+                .packagesOnRoute(routeDTO.getPackagesOnRoute())
+                .build()
+        );
+
+        updatePath(routeDTO.getCheckpoints(), route);
+    }
+
+    /**
+     * @apiNote Actualiza el estado deleted de una ruta
+     * @param id Id de la ruta
+     * @throws NoEmptyCheckpointException
+     * @throws ElementNoExistsException
+     */
+    public void delete(int id) throws NoEmptyRouteException, ElementNoExistsException {
+        validateRouteIsEmpty(id);
+        Route route = routeRepository.findByIdAndIsDeletedFalse(id);
+        if (route == null)
+            throw  new ElementNoExistsException();
+        route.setDeleted(true);
+        routeRepository.save(route);
+    }
+
+    /**
+     * @apiNote  Obtiene un listado paginado de todas las rutas no eliminadas sin importar su estado activo.
+     * Permite obtener un listado en base a un patron de busqueda.
+     * @param pattern Patron de busqueda
+     * @param page Numero de pagina
+     * @param size Tamaño de de pagina
+     * @return Listado paginado de rutas
+     */
+    public Page<Route> getAll( String pattern,  int page, int size){
+        if(pattern == null)
+            return routeRepository.findByIsDeletedFalse(PageRequest.of(page, size, Sort.by("id")));
+        if(pattern.matches("[0-9]+"))
+            return routeRepository.findByIdStartingWith(Integer.parseInt(pattern), PageRequest.of(page, size, Sort.by("id")));
+        else
+            return routeRepository.findByIsDeletedFalseAndNameIgnoreCaseContaining(pattern, PageRequest.of(page, size, Sort.by("id")));
+    }
+
+    /**
+     * @apiNote Obtiene un listado paginado de todas las rutas no eliminadas y cuyo estado active sea true
+     * Permite obtener un listado en base a un patron de busqueda.
+     * @param pattern Patron de busqueda
+     * @param page Numero de pagina
+     * @param size Tamaño de la pagina
+     * @return Listado paginado de rutas activas
+     */
+    public Page<Route> getAllActive( String pattern,  int page, int size){
+        if(pattern == null)
+            return routeRepository.findByIsDeletedFalseAndIsActiveTrue(PageRequest.of(page, size, Sort.by("id")));
+        if(pattern.matches("[0-9]+"))
+            return routeRepository.findByIdStartingWithAndIsActiveTrue(Integer.parseInt(pattern), PageRequest.of(page, size, Sort.by("id")));
+        else
+            return routeRepository.findByIsDeletedFalseAndIsActiveTrueAndNameIgnoreCaseContaining(pattern, PageRequest.of(page, size, Sort.by("id")));
+    }
+
+   /* public ResponseEntity<RouteDTO> getRoute(int id) throws ElementNoExistsException {
+        Route route = routeRepository.findByIdAndIsDeletedFalse(id);
+        if (route == null)
+            throw  new ElementNoExistsException();
+
+        List<Path> paths = pathService.getEdgesByRouteId(route.getId());
+
+        for(int i=0; i<paths.size(); i++){
+
+        }
+
+    }*/
 
     /**
      * @apiNote Llama a metodos para validar que los datos no esten vacios y que existen puntos de control
@@ -86,12 +176,24 @@ public class RouteService {
     }
 
     /**
-     * @apiNote  Valida que el nombre de la rutal no  este previamente registrado en otral.
+     * @apiNote  Valida que el nombre de la ruta no  este previamente registrado en otra.
      * @param name Nombre de la ruta
      * @throws NameAlreadyRegisteredException
      */
     private void validateNameIsUnique(String name) throws NameAlreadyRegisteredException {
         if (routeRepository.findByNameAndIsDeletedFalse(name) != null)
+            throw new NameAlreadyRegisteredException("Nombre de la ruta ya registrado en el sistema.");
+    }
+
+    /**
+     * @apiNote  Valida que el nombre de la ruta  no este registrado en otra que no sea la misma que la del id
+     * que se recibe como parametro..
+     * @param name Nombre de la ruta
+     * @param id id de la ruta
+     * @throws NameAlreadyRegisteredException
+     */
+    private void validateUpdatedNameIsUnique(String name, int id) throws NameAlreadyRegisteredException {
+        if (routeRepository.findByNameAndIdNotAndIsDeletedFalse(name, id) != null)
             throw new NameAlreadyRegisteredException("Nombre de la ruta ya registrado en el sistema.");
     }
 
@@ -114,4 +216,33 @@ public class RouteService {
         }
     }
 
+    /**
+     * @apiNote Valida que la ruta no tenga paquetes por procesar.
+      * @param idRoute Id de la ruta
+     * @throws NoEmptyRouteException
+     */
+    private void validateRouteIsEmpty(int idRoute) throws NoEmptyRouteException, ElementNoExistsException {
+        Optional<Route> optionalRoute = routeRepository.findById(idRoute);
+
+        if(!optionalRoute.isPresent())
+            throw  new ElementNoExistsException();
+
+        if(optionalRoute.get().getPackagesOnRoute() > 0 )
+                throw new NoEmptyRouteException();
+    }
+
+    /**
+     * @apiNote Actualiza la trayectoria de la ruta. Obtiene un listado con todos los paths que etan relacionados con la ruta y posteriormente los elimina.
+     * Despues elimina cada una de las edge relacionadas con los paths que se obtuvieron y llama a crear nuevamente la trayertoria de la ruta.
+     * @param checkpoints
+     * @param route
+     */
+    private void updatePath(List<CheckpointDTO> checkpoints, Route route){
+        List<Path>  paths= pathService.getEdgesByRouteId(route.getId());
+        pathService.deleteAllPathsByRoute(route.getId());
+        for (Path path : paths) {
+            edgeService.deleteEdge(path.getEdge().getId());
+        }
+        createPath(checkpoints, route);
+    }
 }

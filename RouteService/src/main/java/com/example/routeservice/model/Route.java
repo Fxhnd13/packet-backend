@@ -31,5 +31,7 @@ public class Route {
     @Column(name = "deleted")
     private boolean isDeleted;
 
+    @Column(name = "packages_on_route")
+    private int packagesOnRoute;
 
 }
