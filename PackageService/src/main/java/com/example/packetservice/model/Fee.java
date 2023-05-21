@@ -1,16 +1,10 @@
 package com.example.packetservice.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Fee {
 
     @Id
