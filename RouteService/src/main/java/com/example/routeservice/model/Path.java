@@ -1,11 +1,17 @@
 package com.example.routeservice.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "ruta_punto_de_control")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "path")
 public class Path {
 
     @Id

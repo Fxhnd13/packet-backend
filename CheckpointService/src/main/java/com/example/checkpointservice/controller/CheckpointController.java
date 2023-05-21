@@ -3,7 +3,7 @@ package com.example.checkpointservice.controller;
 import com.example.authconfigurations.auth.annotation.RoleValidation;
 import com.example.basedomains.constants.Constants;
 import com.example.basedomains.exception.*;
-import com.example.checkpointservice.dto.CheckpointDTO;
+import com.example.basedomains.dto.CheckpointDTO;
 import com.example.checkpointservice.model.Checkpoint;
 import com.example.checkpointservice.service.CheckpointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +49,16 @@ public class CheckpointController {
 
     @DeleteMapping("/{id}")
     @RoleValidation({"ADMIN"})
-    public ResponseEntity<Checkpoint> deleteCheckpoint(@PathVariable int id) throws NoEmptyCheckpointException {
+    public ResponseEntity<Checkpoint> deleteCheckpoint(@PathVariable int id)   {
         try{
             checkpointService.delete(id);
             return ResponseEntity.ok().build();
         } catch (ElementNoExistsException e){
             return  new ResponseEntity(e.getError(), HttpStatus.NOT_FOUND);
-        }catch (Exception ex){
+        } catch (NoEmptyCheckpointException ne){
+            return new ResponseEntity(ne.getError(), HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception ex){
             return  new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

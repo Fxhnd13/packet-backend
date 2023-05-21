@@ -71,6 +71,7 @@ public class AuthenticationService {
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(roleRepository.findByName(RoleType.CLIENT.name()))
+                .isDeleted(false)
                 .build();
         User savedUser = userRepository.save(user);
 
@@ -106,7 +107,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByUsername(request.getUsername())
+        var user = userRepository.findByUsernameAndIsDeletedFalse(request.getUsername())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

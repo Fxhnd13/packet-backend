@@ -34,7 +34,7 @@ public class User implements UserDetails {
     /**
      * @implNote Esta propiedad representa el nombre de la tabla "Usuario" en la base de datos.
      */
-    @Column(name = "username", unique = true)
+    @Column(name = "username")
     private String username;
 
     /**
@@ -55,6 +55,9 @@ public class User implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_role")
     private Role role;
+
+    @Column(name = "deleted")
+    private boolean isDeleted;
 
     /**
      * @implNote Este método obtiene el nombre de usuario del usuario.
