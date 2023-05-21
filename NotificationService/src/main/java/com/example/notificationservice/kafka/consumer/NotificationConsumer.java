@@ -14,7 +14,7 @@ public class NotificationConsumer {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @KafkaListener(topics = "autNotification")
+    @KafkaListener(topics = "notification")
     public void consume(NotificationDTO  notificationDTO){
         SimpleMailMessage mail = new SimpleMailMessage();
        // mail.setFrom(null);

@@ -1,4 +1,4 @@
-package com.example.authenticationservice.kafka.producer;
+package com.example.clientservice.kafka.producer;
 
 import com.example.basedomains.dto.NotificationDTO;
 import lombok.RequiredArgsConstructor;
