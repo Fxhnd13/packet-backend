@@ -1,6 +1,6 @@
 package com.example.authenticationservice.kafka.producer;
 
-import com.example.basedomains.dto.ClientDTO;
+import com.example.basedomains.dto.NotificationDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ClientProducer {
+public class NotificationProducer {
 
     @Autowired
-    private KafkaTemplate<String, ClientDTO> kafkaTemplate;
+    private KafkaTemplate<String, NotificationDTO> kafkaTemplate;
 
-    @Value(value = "client")
+    @Value(value = "autNotification")
     private String topic;
 
-    public void sendClient(ClientDTO clientEvent){
-        kafkaTemplate.send(topic, clientEvent);
+    public void sendNotification(NotificationDTO notificationDTO){
+        kafkaTemplate.send(topic, notificationDTO);
     }
 }
