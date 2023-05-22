@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FeeRepository extends JpaRepository<Fee, Integer> {
+
+    public Fee findByIsActiveTrueAndPriorityFalse();
+    public Fee findByIsActiveTrueAndPriorityTrue();
 }

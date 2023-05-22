@@ -5,11 +5,13 @@ import com.example.authenticationservice.auth.AuthenticationRequest;
 import com.example.authenticationservice.auth.AuthenticationResponse;
 import com.example.authenticationservice.auth.RegisterRequest;
 import com.example.authenticationservice.kafka.producer.ClientProducer;
+import com.example.authenticationservice.kafka.producer.NotificationProducer;
 import com.example.authenticationservice.repository.RoleRepository;
 import com.example.authenticationservice.models.User;
 import com.example.authenticationservice.repository.UserRepository;
 import com.example.authenticationservice.source.RoleType;
 import com.example.basedomains.dto.ClientDTO;
+import com.example.basedomains.dto.NotificationDTO;
 import com.example.basedomains.exception.NameAlreadyRegisteredException;
 import com.example.basedomains.exception.RequiredFieldException;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +60,9 @@ public class AuthenticationService {
     @Autowired
     private ClientProducer clientProducer;
 
+    @Autowired
+    private NotificationProducer notificationProducer;
+
     /**
      * @apiNote Registra un nuevo usuario de tipo cliente en la base de datos y lanza un evento para registrar el cliente correspondiente al usuario.
      * @param request Datos del usuario a registrar
@@ -88,6 +93,14 @@ public class AuthenticationService {
                 .build()
         );
 
+        //Evento para enviar notificacion por correo
+        notificationProducer.sendNotification(
+                NotificationDTO.builder()
+                        .email(request.getEmail())
+                        .message("Registro exitoso")
+                        .build()
+        );
+
         //JWT
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -110,6 +123,7 @@ public class AuthenticationService {
         var user = userRepository.findByUsernameAndIsDeletedFalse(request.getUsername())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
+
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
