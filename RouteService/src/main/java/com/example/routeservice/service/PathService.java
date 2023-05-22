@@ -44,4 +44,8 @@ public class PathService {
         return pathRepository.findByRouteId(id);
     }
 
+    public Path getFirstPathByRoute(int id){
+        return  pathRepository.findFirstByRouteIdOrderByIdAsc(id);
+    }
+
 }

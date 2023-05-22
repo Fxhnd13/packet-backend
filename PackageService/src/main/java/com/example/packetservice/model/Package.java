@@ -2,13 +2,18 @@ package com.example.packetservice.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.util.Date;
+import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="package")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Package {
 
     @Id
@@ -23,10 +28,10 @@ public class Package {
     private boolean priority;
 
     @Column(name = "income_date")
-    private Date incomeDate;
+    private LocalDate incomeDate;
 
     @Column(name = "delivery_date")
-    private Date deliveryDate;
+    private LocalDate deliveryDate;
 
     @Column(name = "delivery_address")
     private String deliveryAddress;

@@ -21,6 +21,5 @@ public class ClientProducer {
 
     public void sendClient(ClientDTO clientEvent){
         kafkaTemplate.send(topic, clientEvent);
-
     }
 }
