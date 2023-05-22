@@ -14,4 +14,8 @@ public class ClientService {
     public void add(Client client){
         clientRepository.save(client);
     }
+
+    public String getEmail(String nit){
+        return clientRepository.findByNit(nit).getEmail();
+    }
 }

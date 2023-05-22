@@ -151,6 +151,10 @@ public class CheckpointService {
         );
     }
 
+    public Checkpoint getCheckpointById(int id){
+        return checkpointRepository.findByIdAndIsDeletedFalse(id);
+    }
+
 
     /**
      * @apiNote  Llama a la ejecucion de validaciones de campos obligatorios y a validacion de tarifa.

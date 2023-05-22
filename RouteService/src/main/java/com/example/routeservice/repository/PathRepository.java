@@ -14,4 +14,6 @@ public interface PathRepository extends JpaRepository<Path, Integer> {
     public void deleteAllByRouteId(int id);
 
     public List<Path> findByRouteId(int id);
+
+    public Path findFirstByRouteIdOrderByIdAsc(int id);
 }
