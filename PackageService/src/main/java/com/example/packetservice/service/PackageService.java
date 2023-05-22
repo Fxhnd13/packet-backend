@@ -10,9 +10,6 @@ import com.example.packetservice.respository.PackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class PackageService {
 
@@ -46,7 +43,8 @@ public class PackageService {
             );
             currentPackage.setId(tempPackage.getId());
         }
-        orderProducer.sendOrder(orderDTO);
+        orderProducer.sendOrderToClientService(orderDTO);
+        orderProducer.sendOrderToRouteService(orderDTO);
     }
 
 

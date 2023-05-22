@@ -17,10 +17,20 @@ public class OrderProducer {
     private KafkaTemplate<String, OrderDTO> kafkaTemplate;
 
     @Value(value = "packageOnOrder")
-    private String topic;
+    private String topicToClient;
 
-    public void sendOrder(OrderDTO orderDTO){
-        kafkaTemplate.send(topic, orderDTO);
+    @Value(value = "packageOnRoute")
+    private String topicToRoute;
+
+    public void sendOrderToClientService(OrderDTO orderDTO){
+        kafkaTemplate.send(topicToClient, orderDTO);
     }
+
+    public void sendOrderToRouteService(OrderDTO orderDTO){
+        kafkaTemplate.send(topicToRoute, orderDTO);
+    }
+
+
+
 }
 
