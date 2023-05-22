@@ -11,6 +11,7 @@
         <module name="PackageService" />
         <module name="CheckpointService" />
         <module name="BaseDomains" />
+        <module name="PaymentsService" />
         <module name="ClientService" />
         <module name="NotificationService" />
         <module name="RouteService" />
@@ -36,6 +37,7 @@
       <module name="EurekaServer" options="-parameters" />
       <module name="NotificationService" options="-parameters" />
       <module name="PackageService" options="-parameters" />
+      <module name="PaymentsService" options="-parameters" />
       <module name="RouteService" options="-parameters" />
       <module name="UserService" options="-parameters" />
     </option>

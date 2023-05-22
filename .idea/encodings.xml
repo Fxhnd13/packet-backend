@@ -29,6 +29,8 @@
     <file url="file://$PROJECT_DIR$/PackageService/Dockerfile" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/PackageService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/PackageService/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PaymentsService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PaymentsService/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/RouteService/Dockerfile" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/RouteService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/RouteService/src/main/resources" charset="UTF-8" />
