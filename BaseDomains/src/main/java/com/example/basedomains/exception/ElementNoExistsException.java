@@ -5,4 +5,8 @@ public class ElementNoExistsException extends PackageSystemException {
     public ElementNoExistsException() {
         super("No se puede ejecutar la solicitud, el recurso no existe.");
     }
+
+    public ElementNoExistsException(String message) {
+        super(message);
+    }
 }

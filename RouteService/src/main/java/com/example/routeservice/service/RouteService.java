@@ -1,8 +1,8 @@
 package com.example.routeservice.service;
 
-import com.example.basedomains.dto.CheckpointDTO;
-import com.example.basedomains.dto.RouteDTO;
+import com.example.basedomains.dto.*;
 import com.example.basedomains.exception.*;
+import com.example.routeservice.kafka.producer.PackageOnCheckpointProducer;
 import com.example.routeservice.model.Edge;
 import com.example.routeservice.model.Path;
 import com.example.routeservice.model.Route;
@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,9 @@ public class RouteService {
 
     @Autowired
     private PathService pathService;
+
+    @Autowired
+    private PackageOnCheckpointProducer packageOnCheckpointProducer;
 
     /**
      * @apiNote Registra en la base de datos una nueva ruta. Realiza un llamado para estructurar el camino de la ruta
@@ -144,6 +148,33 @@ public class RouteService {
 
     }*/
 
+    public void addPackage(List<PackageDTO> packages){
+        int routeId;
+        Path path = null;
+        PackageOnCheckpointList packageOnCheckpointList = new PackageOnCheckpointList();
+
+        for (PackageDTO currentPackage : packages) {
+            routeId = currentPackage.getRouteId();
+
+            //Incrementar contador de ruta
+            addPackageOnRoute(routeId);
+
+           //Obtener el primer path de la ruta
+            path = pathService.getFirstPathByRoute(routeId);
+
+            //Crear un Objeto PackageOnCheckpoint con el id del punto de control inical del path y el id del package.
+
+            packageOnCheckpointList.getPackageOnCheckpointDTO().add(
+                PackageOnCheckpointDTO.builder()
+                    .packageId(currentPackage.getId())
+                    .checkpointId(path.getEdge().getInitialCheckpointId())
+                    .build()
+            );
+        }
+        //Evento para enviar id package y id checkpoinnt
+        packageOnCheckpointProducer.sendPackageOnCheckpoint(packageOnCheckpointList);
+    }
+
     /**
      * @apiNote Llama a metodos para validar que los datos no esten vacios y que existen puntos de control
      * @param routeDTO Datos a validar
@@ -244,5 +275,15 @@ public class RouteService {
             edgeService.deleteEdge(path.getEdge().getId());
         }
         createPath(checkpoints, route);
+    }
+
+    /**
+     * @apiNote Aumenta en 1 el  contador packageOnRpute de la ruta cuyo id se recibe como parametro
+     * @param routeId
+     */
+    private void addPackageOnRoute(int routeId){
+        Route route = routeRepository.findByIdAndIsDeletedFalse(routeId);
+        route.setPackagesOnRoute(route.getPackagesOnRoute()+1);
+        routeRepository.save(route);
     }
 }
