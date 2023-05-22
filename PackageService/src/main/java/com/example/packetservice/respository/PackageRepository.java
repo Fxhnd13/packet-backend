@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PackageRepository extends JpaRepository<Package, Integer> {
 
-    @Query(value="SELECT * FROM package WHERE CAST(id AS TEXT) LIKE ?1%  AND delivery_date=null", nativeQuery = true)
-    public Page<Package> findByIdStartingWithAndDeliveryDateNull(int id, Pageable pageable);
+    @Query(value="SELECT * FROM package WHERE CAST(id AS TEXT) LIKE ?1%  AND delivery_date IS NOT NULL", nativeQuery = true)
+    public Page<Package> findByIdStartingWithAndDeliveryDateNull(String id, Pageable pageable);
+
+    @Query(value="SELECT * FROM package WHERE delivery_date IS NOT NULL", nativeQuery = true)
+    public Page<Package> findByIDeliveryDateNull(Pageable pageable);
 }

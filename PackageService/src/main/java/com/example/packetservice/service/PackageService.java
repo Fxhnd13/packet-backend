@@ -9,6 +9,8 @@ import com.example.packetservice.respository.FeeRepository;
 import com.example.packetservice.respository.PackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -61,7 +63,10 @@ public class PackageService {
             return feeRepository.findByIsActiveTrueAndPriorityFalse();
     }
 
-    public Page<Package> getDeliveredPackages(){
-        return null;
+    public Page<Package> getDeliveredPackages(String pattern,  int page, int size){
+        if(pattern == null)
+            return packageRepository.findByIDeliveryDateNull(PageRequest.of(page, size, Sort.by("id")));
+        else
+            return packageRepository.findByIdStartingWithAndDeliveryDateNull(pattern, PageRequest.of(page, size, Sort.by("id")));
     }
 }
