@@ -8,6 +8,7 @@ import com.example.packetservice.model.Package;
 import com.example.packetservice.respository.FeeRepository;
 import com.example.packetservice.respository.PackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -58,5 +59,9 @@ public class PackageService {
             return feeRepository.findByIsActiveTrueAndPriorityTrue();
         else
             return feeRepository.findByIsActiveTrueAndPriorityFalse();
+    }
+
+    public Page<Package> getDeliveredPackages(){
+        return null;
     }
 }
