@@ -27,7 +27,6 @@ public class SecurityConfiguration {
      * @implNote Este es el filtro que se encarga de interceptar las peticiones que llegan al servidor y verificar si el token es válido
      */
     private final JwtAuthenticationFilter jwtAuthFilter;
-    private final CorsManualFilter corsManualFilter;
 
     /**
      * @implNote Este método es el encargado de configurar la seguridad de los servicios
@@ -49,8 +48,6 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                //.authenticationProvider(authenticationProvider)
-                .addFilterBefore(corsManualFilter, ChannelProcessingFilter.class)
                 .addFilterAfter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

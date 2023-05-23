@@ -7,6 +7,7 @@ import com.example.basedomains.dto.CheckpointDTO;
 import com.example.checkpointservice.model.Checkpoint;
 import com.example.checkpointservice.service.CheckpointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,12 @@ public class CheckpointController {
 
     @Autowired
     private CheckpointService checkpointService;
+
+    @GetMapping("/test")
+    @RoleValidation({"ADMIN"})
+    public ResponseEntity<String> test(){
+        return new ResponseEntity<>("Test", HttpStatus.OK);
+    }
 
     @PostMapping("/")
     @RoleValidation({"ADMIN"})
