@@ -36,11 +36,19 @@ public class Package {
     @Column(name = "delivery_address")
     private String deliveryAddress;
 
+    @Column(name = "is_paid")
+    private boolean isPaid;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_fee")
     private Fee fee;
 
     @Column(name = "id_route")
     private int routeId;
+
+    @PrePersist
+    public void setPaid(){
+        this.isPaid = false;
+    }
 
 }

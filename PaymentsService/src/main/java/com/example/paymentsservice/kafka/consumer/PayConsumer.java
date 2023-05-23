@@ -12,9 +12,9 @@ public class PayConsumer {
     @Autowired
     private PayService payService;
 
-    @KafkaListener(topics = "pays", containerFactory = "payKafkaListenerContainerFactory")
+    @KafkaListener(topics = "packageOnPay", containerFactory = "payKafkaListenerContainerFactory")
     public void consume(PayDTO payDTO){
-        payService.savePay(payDTO.getAmount(), payDTO.getOrderId());
+        payService.savePay(payDTO);
     }
 
 }
