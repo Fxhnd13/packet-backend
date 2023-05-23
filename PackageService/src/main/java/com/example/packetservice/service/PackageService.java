@@ -1,10 +1,13 @@
 package com.example.packetservice.service;
 
+import com.example.packetservice.kafka.producer.ProcessPackageProducer;
+import com.example.packetservice.kafka.producer.OrderProducer;
+import com.example.packetservice.kafka.producer.PayProducer;
 import com.example.basedomains.dto.OrderDTO;
 import com.example.basedomains.dto.PackageDTO;
 import com.example.basedomains.dto.PayDTO;
-import com.example.packetservice.kafka.producer.OrderProducer;
-import com.example.packetservice.kafka.producer.PayProducer;
+import com.example.basedomains.dto.ProcessPackageDTO;
+import com.example.basedomains.dto.ProcessPackageRequest;
 import com.example.packetservice.model.Fee;
 import com.example.packetservice.model.Package;
 import com.example.packetservice.respository.FeeRepository;
@@ -12,7 +15,12 @@ import com.example.packetservice.respository.PackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 public class PackageService {
@@ -28,6 +36,9 @@ public class PackageService {
 
     @Autowired
     private PayProducer payProducer;
+
+    @Autowired
+    private ProcessPackageProducer processPackageProducer;
 
     /**
      * @apiNote  Crea cada uno de los paquetes que se reciben como parametro y almacena los id de los paquetes creados en una lista.
@@ -86,4 +97,38 @@ public class PackageService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se ha podido registrar el pago correctamente inténtelo de nuevo");
         }
     }
+
+    public Page<Package> getDeliveredPackages(String pattern,  int page, int size){
+        if(pattern == null)
+            return packageRepository.findByIDeliveryDateNull(PageRequest.of(page, size, Sort.by("id")));
+        else
+            return packageRepository.findByIdStartingWithAndDeliveryDateNull(pattern, PageRequest.of(page, size, Sort.by("id")));
+    }
+
+    public Page<Package> getPackages(String pattern,  int page, int size){
+        if(pattern == null)
+            return packageRepository.findAll(PageRequest.of(page, size, Sort.by("id")));
+        else
+            return packageRepository.findByIdLike(pattern, PageRequest.of(page, size, Sort.by("id")));
+    }
+
+    public void processPackage(ProcessPackageRequest processPackageRequest){
+        Package packet = packageRepository.findById(processPackageRequest.getIdPackage()).get();
+
+        //Lanzar evento
+        processPackageProducer.sendProcessPackage(
+            ProcessPackageDTO.builder()
+                .idPackage(processPackageRequest.getIdPackage())
+                .idCurrentCheckpoint(processPackageRequest.getIdCheckpoint())
+                .idRoute(packet.getRouteId())
+                .build()
+        );
+    }
+
+    public void deliver(int id){
+        Package packet =  packageRepository.findById(id).get();
+        packet.setDeliveryDate(LocalDate.now());
+        packageRepository.save(packet);
+    }
+
 }

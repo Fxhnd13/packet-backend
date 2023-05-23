@@ -34,5 +34,23 @@ public class KafkaConsumerConfig {
         factory.setConsumerFactory(orderConsumerFactory());
         return factory;
     }
+
+    @Bean
+    public ConsumerFactory<String, Integer> packageIdConsumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "process");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        return new DefaultKafkaConsumerFactory<>(props);
+    }
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, Integer> packageIdKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, Integer>
+                factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(packageIdConsumerFactory());
+        return factory;
+    }
 }
 

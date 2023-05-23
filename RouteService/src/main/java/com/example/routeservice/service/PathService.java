@@ -1,5 +1,7 @@
 package com.example.routeservice.service;
 
+import com.example.basedomains.dto.ProcessPackageDTO;
+import com.example.routeservice.kafka.producer.ProcessPackageProducer;
 import com.example.routeservice.model.Edge;
 import com.example.routeservice.model.Path;
 import com.example.routeservice.model.Route;
@@ -14,6 +16,9 @@ public class PathService {
 
     @Autowired
     private PathRepository pathRepository;
+
+    @Autowired
+    private ProcessPackageProducer processPackageProducer;
 
 
     /**
@@ -46,6 +51,29 @@ public class PathService {
 
     public Path getFirstPathByRoute(int id){
         return  pathRepository.findFirstByRouteIdOrderByIdAsc(id);
+    }
+
+    public void processPackage(ProcessPackageDTO processPackageDTO){
+       //Obtener todos los paths que conforman la ruta
+        List<Path> paths = pathRepository.findAllByRouteIdOrderByIdAsc(processPackageDTO.getIdRoute());
+
+        //Buscar cual es el path actual, obtener el id del siguiente checkpoint.
+        for (Path path : paths) {
+            if(path.getEdge().getInitialCheckpointId() == processPackageDTO.getIdCurrentCheckpoint()) {
+
+                //Identificar si es el ultimpo punto de control
+                if (path.getEdge().getInitialCheckpointId() == path.getEdge().getFinalCheckpointId()){
+                   processPackageDTO.setDelivered(true);
+                } else{
+                    processPackageDTO.setIdNextCheckpoint(path.getEdge().getFinalCheckpointId());
+                    processPackageDTO.setDelivered(false);
+                }
+                break;
+            }
+        }
+
+        //Lanzar evento para registar el movimiento
+        processPackageProducer.sendProcessPackage(processPackageDTO);
     }
 
 }
