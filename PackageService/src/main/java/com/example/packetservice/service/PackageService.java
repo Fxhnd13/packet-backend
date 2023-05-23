@@ -80,6 +80,13 @@ public class PackageService {
             return packageRepository.findByIdStartingWithAndDeliveryDateNull(pattern, PageRequest.of(page, size, Sort.by("id")));
     }
 
+    public Page<Package> getPackages(String pattern,  int page, int size){
+        if(pattern == null)
+            return packageRepository.findAll(PageRequest.of(page, size, Sort.by("id")));
+        else
+            return packageRepository.findByIdLike(pattern, PageRequest.of(page, size, Sort.by("id")));
+    }
+
     public void processPackage(ProcessPackageRequest processPackageRequest){
         Package packet = packageRepository.findById(processPackageRequest.getIdPackage()).get();
 

@@ -20,9 +20,24 @@ public class PackageController {
     @Autowired
     private PackageService packageService;
 
-    @GetMapping("/delivered")
+    @GetMapping("/")
     @RoleValidation("OPERATOR")
     public ResponseEntity<Page<Package>> getPackages(
+            @RequestParam(required = false) String pattern,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        try{
+            return new ResponseEntity(packageService.getPackages(pattern, page, size), HttpStatus.OK);
+
+        } catch(Exception e){
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/delivered")
+    @RoleValidation("OPERATOR")
+    public ResponseEntity<Page<Package>> getDeliveredPackages(
             @RequestParam(required = false) String pattern,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
