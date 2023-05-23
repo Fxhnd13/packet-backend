@@ -3,6 +3,7 @@ package com.example.routeservice.kafka.config;
 import com.example.basedomains.dto.OrderDTO;
 import com.example.basedomains.dto.PackageOnCheckpointDTO;
 import com.example.basedomains.dto.PackageOnCheckpointList;
+import com.example.basedomains.dto.ProcessPackageDTO;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,5 +31,19 @@ public class KafkaProducerConfig {
     @Bean
     public KafkaTemplate<String, PackageOnCheckpointList> packageOnChekpointKafkaTemplate() {
         return new KafkaTemplate<>(packageOnChekpointProducerFactory());
+    }
+
+    @Bean
+    public ProducerFactory<String, ProcessPackageDTO> processPackageProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
+    public KafkaTemplate<String, ProcessPackageDTO> processPackageKafkaTemplate() {
+        return new KafkaTemplate<>(processPackageProducerFactory());
     }
 }

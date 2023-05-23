@@ -2,7 +2,10 @@ package com.example.packetservice.service;
 
 import com.example.basedomains.dto.OrderDTO;
 import com.example.basedomains.dto.PackageDTO;
+import com.example.basedomains.dto.ProcessPackageDTO;
+import com.example.basedomains.dto.ProcessPackageRequest;
 import com.example.packetservice.kafka.producer.OrderProducer;
+import com.example.packetservice.kafka.producer.ProcessPackageProducer;
 import com.example.packetservice.model.Fee;
 import com.example.packetservice.model.Package;
 import com.example.packetservice.respository.FeeRepository;
@@ -12,6 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Service
 public class PackageService {
@@ -24,6 +31,9 @@ public class PackageService {
 
     @Autowired
     private OrderProducer orderProducer;
+
+    @Autowired
+    private ProcessPackageProducer processPackageProducer;
 
     /**
      * @apiNote  Crea cada uno de los paquetes que se reciben como parametro y almacena los id de los paquetes creados en una lista.
@@ -69,4 +79,24 @@ public class PackageService {
         else
             return packageRepository.findByIdStartingWithAndDeliveryDateNull(pattern, PageRequest.of(page, size, Sort.by("id")));
     }
+
+    public void processPackage(ProcessPackageRequest processPackageRequest){
+        Package packet = packageRepository.findById(processPackageRequest.getIdPackage()).get();
+
+        //Lanzar evento
+        processPackageProducer.sendProcessPackage(
+            ProcessPackageDTO.builder()
+                .idPackage(processPackageRequest.getIdPackage())
+                .idCurrentCheckpoint(processPackageRequest.getIdCheckpoint())
+                .idRoute(packet.getRouteId())
+                .build()
+        );
+    }
+
+    public void deliver(int id){
+        Package packet =  packageRepository.findById(id).get();
+        packet.setDeliveryDate(LocalDate.now());
+        packageRepository.save(packet);
+    }
+
 }

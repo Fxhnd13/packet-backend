@@ -1,9 +1,8 @@
 package com.example.checkpointservice.controller;
 
 import com.example.authconfigurations.auth.annotation.RoleValidation;
-import com.example.checkpointservice.model.Checkpoint;
 import com.example.checkpointservice.service.PackageInformationService;
-import com.example.checkpointservice.source.PackageInformationDTO;
+import com.example.basedomains.dto.PackageInformationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ public class PackageInformationController {
             @RequestParam(defaultValue = "10") int size
     ){
         try{
-            return new ResponseEntity<>(packageInformationService.getPackages(page, size), HttpStatus.OK);
+            return new ResponseEntity<>(packageInformationService.getPackages(pattern, page, size), HttpStatus.OK);
         } catch(Exception e){
             return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -2,6 +2,7 @@ package com.example.routeservice.kafka.config;
 
 import com.example.basedomains.dto.OrderDTO;
 import com.example.basedomains.dto.PackageDTO;
+import com.example.basedomains.dto.ProcessPackageDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,24 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, OrderDTO>
                 factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(orderConsumerFactory());
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, ProcessPackageDTO> processPackageConsumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "process");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        return new DefaultKafkaConsumerFactory<>(props);
+    }
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ProcessPackageDTO> processPackageKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ProcessPackageDTO>
+                factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(processPackageConsumerFactory());
         return factory;
     }
 }
