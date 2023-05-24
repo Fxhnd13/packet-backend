@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/routes")
 public class RouteController {
@@ -86,17 +88,26 @@ public class RouteController {
         }
     }
 
-/*
+    @GetMapping("/list")
+    @RoleValidation({"OPERATOR"})
+    public ResponseEntity<List<Route>> getRoutesWithoutPagination(){
+        try {
+            return ResponseEntity.ok(routeService.getWithoutPagination());
+        } catch(Exception e){
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/{id}")
-    @RoleValidation("ADMIN")
-    public ResponseEntity<RouteDTO> getRoute(@PathVariable int id
+    @RoleValidation({"OPERATOR", "CLIENT"})
+    public ResponseEntity<Route> getRoute(@PathVariable int id
     ){
         try{
-            return routeService.getRoute(id);
+            return ResponseEntity.ok(routeService.getRoute(id));
         }  catch (ElementNoExistsException e) {
             return new ResponseEntity(e.getError(), HttpStatus.NOT_FOUND);
         } catch(Exception e){
             return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }*/
+    }
 }

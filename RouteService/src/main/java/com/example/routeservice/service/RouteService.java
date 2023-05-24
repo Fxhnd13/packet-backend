@@ -136,22 +136,16 @@ public class RouteService {
             return routeRepository.findByIsDeletedFalseAndIsActiveTrueAndNameIgnoreCaseContaining(pattern, PageRequest.of(page, size, Sort.by("id")));
     }
 
-
-   /*
-    public ResponseEntity<RouteDTO> getRoute(int id) throws ElementNoExistsException {
+    public Route getRoute(int id) throws ElementNoExistsException {
         Route route = routeRepository.findByIdAndIsDeletedFalse(id);
         if (route == null)
             throw  new ElementNoExistsException();
+        return route;
+    }
 
-        List<Path> paths = pathService.getEdgesByRouteId(route.getId());
-
-       // for(int i=0; i<paths.size(); i++){
-
-       // }
-
-
-
-    }*/
+    public List<Route> getWithoutPagination(){
+        return routeRepository.findByIsDeletedFalseAndIsActiveTrue();
+    }
 
     public void addPackage(List<PackageDTO> packages){
         int routeId;
