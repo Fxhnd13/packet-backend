@@ -15,8 +15,8 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-@EnableKafka
 @Configuration
+@EnableKafka
 public class KafkaConsumerConfig {
 
     @Value("${kafka.consumer.server}")
@@ -28,18 +28,21 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "clients");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "create-client");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
     @Bean
     public ConsumerFactory<String, OrderDTO> orderConsumerFactory() {
+        System.out.println("Leyendo configuracion");
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "orders");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "create-order");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         return new DefaultKafkaConsumerFactory<>(props);
     }
