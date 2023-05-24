@@ -1,5 +1,7 @@
 package com.example.paymentsservice.service;
 
+import com.example.basedomains.dto.PayDTO;
+import com.example.paymentsservice.kafka.consumer.PayProducer;
 import com.example.paymentsservice.model.Pay;
 import com.example.paymentsservice.repository.PayRepository;
 import com.example.paymentsservice.request.UpdatePayRequest;
@@ -26,12 +28,13 @@ public class PayService {
         }
     }
 
-    public void savePay(double amount, int orderId){
+    public void savePay(PayDTO payDTO){
         try{
             new Pay();
             Pay pay = Pay.builder()
-                    .amount(amount)
-                    .orderId(orderId)
+                    .amount(payDTO.getAmount())
+                    .orderId(payDTO.getOrderId())
+                    .cardNumber(payDTO.getCardNumber())
                     .pending(true)
                     .accepted(false).build();
             payRepository.save(pay);

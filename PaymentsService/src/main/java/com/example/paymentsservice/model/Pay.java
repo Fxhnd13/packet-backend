@@ -33,6 +33,9 @@ public class Pay {
     @Column(name = "order_id")
     private int orderId;
 
+    @Column(name = "card_number")
+    private String cardNumber;
+
     @PrePersist
     public void prePersist() {
         date = LocalDate.now();

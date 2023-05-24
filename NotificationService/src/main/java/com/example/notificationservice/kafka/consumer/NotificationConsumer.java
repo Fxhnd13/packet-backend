@@ -1,6 +1,7 @@
 package com.example.notificationservice.kafka.consumer;
 
 import com.example.basedomains.dto.NotificationDTO;
+import com.example.basedomains.dto.PayDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;

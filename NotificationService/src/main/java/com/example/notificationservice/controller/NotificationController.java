@@ -4,6 +4,7 @@ import com.example.notificationservice.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,8 +14,8 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
-    @GetMapping("/send")
-    public String sendNotification() {
-        return notificationService.sendNotification();
+    @GetMapping("/test")
+    public String sendNotification(@RequestParam("email") String email) {
+        return notificationService.sendNotification(email);
     }
 }

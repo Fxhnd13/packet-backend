@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -135,16 +136,20 @@ public class RouteService {
             return routeRepository.findByIsDeletedFalseAndIsActiveTrueAndNameIgnoreCaseContaining(pattern, PageRequest.of(page, size, Sort.by("id")));
     }
 
-   /* public ResponseEntity<RouteDTO> getRoute(int id) throws ElementNoExistsException {
+
+   /*
+    public ResponseEntity<RouteDTO> getRoute(int id) throws ElementNoExistsException {
         Route route = routeRepository.findByIdAndIsDeletedFalse(id);
         if (route == null)
             throw  new ElementNoExistsException();
 
         List<Path> paths = pathService.getEdgesByRouteId(route.getId());
 
-        for(int i=0; i<paths.size(); i++){
+       // for(int i=0; i<paths.size(); i++){
 
-        }
+       // }
+
+
 
     }*/
 

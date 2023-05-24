@@ -16,13 +16,13 @@ public class MailConfiguration {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("AD1.Bank.Server@gmail.com");
-        mailSender.setPassword("ad1bankserver");
+        mailSender.setUsername("paqueteriagtm@gmail.com");
+        mailSender.setPassword("dmlehiwpcqkecszo");
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.transport.protocol", "smtp");
         props.put("mail.debug", "true");
 
         return mailSender;
