@@ -105,5 +105,28 @@
             </snapshots>
         </repository>
     </repositories>
+    <profiles>
+        <profile>
+            <id>k8s</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>devk8s</activatedProperties>
+            </properties>
+        </profile>
 
+        <profile>
+            <id>hel</id>
+            <properties>
+                <activatedProperties>devhel</activatedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>sob</id>
+            <properties>
+                <activatedProperties>devsob</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
 </project>
