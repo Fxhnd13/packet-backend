@@ -93,5 +93,14 @@ public class PackageInformationService {
         }
     }
 
+    public Checkpoint getCheckpointByPackageId(int id){
+        PackageInformation packageInformation = null;
+        packageInformation = packageInformationRepository.findByPackageIdAndExitTimestampIsNull(id);
+        if(packageInformation == null)
+            return null;
+        else
+            return packageInformation.getCheckpoint();
+    }
+
 }
 

@@ -21,4 +21,6 @@ public interface PackageInformationRepository extends JpaRepository<PackageInfor
     public Page<PackageInformation> findByIdStartingWithAndExitTimestampIsNull(String id, Pageable pageable);
 
     public PackageInformation findByPackageIdAndExitTimestampIsNull(int packageId);
+
+    public PackageInformation findFirstByPackageIdOrderByIdDesc(int packageId);
 }
