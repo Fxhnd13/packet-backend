@@ -7,25 +7,37 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="EurekaServer" />
         <module name="PackageService" />
         <module name="CheckpointService" />
+        <module name="BaseDomains" />
+        <module name="PaymentsService" />
         <module name="ClientService" />
-        <module name="UserService" />
         <module name="NotificationService" />
         <module name="RouteService" />
         <module name="AuthenticationService" />
         <module name="ApiGateway" />
+        <module name="AuthConfigurations" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="BaseDomain" target="17" />
+      <module name="UserService" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ApiGateway" options="-parameters" />
+      <module name="AuthConfigurations" options="-parameters" />
       <module name="AuthenticationService" options="-parameters" />
+      <module name="BaseDomain" options="-parameters" />
+      <module name="BaseDomains" options="-parameters" />
       <module name="CheckpointService" options="-parameters" />
       <module name="ClientService" options="-parameters" />
+      <module name="EurekaServer" options="-parameters" />
       <module name="NotificationService" options="-parameters" />
       <module name="PackageService" options="-parameters" />
+      <module name="PaymentsService" options="-parameters" />
       <module name="RouteService" options="-parameters" />
       <module name="UserService" options="-parameters" />
     </option>

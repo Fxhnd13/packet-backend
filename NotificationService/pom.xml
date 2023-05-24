@@ -39,7 +39,16 @@
             <artifactId>dotenv-java</artifactId>
             <version>2.2.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>AuthConfigurations</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>BaseDomains</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -65,6 +74,14 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -105,5 +122,28 @@
             </snapshots>
         </repository>
     </repositories>
+    <profiles>
+        <profile>
+            <id>k8s</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>devk8s</activatedProperties>
+            </properties>
+        </profile>
 
+        <profile>
+            <id>hel</id>
+            <properties>
+                <activatedProperties>devhel</activatedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>sob</id>
+            <properties>
+                <activatedProperties>devsob</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
 </project>
